@@ -1,0 +1,28 @@
+# Terraform state and local data
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfplan.*
+*.plan
+crash.log
+crash.*.log
+
+# SSH private keys and local host-key caches
+*.pem
+*.key
+id_rsa
+id_ed25519*
+!*.pub
+known_hosts*
+
+# Secrets and local configuration
+*.tfvars
+*.tfvars.json
+.env
+.env.*
+!*.tfvars.example
+!.env.example
+
+# macOS
+.DS_Store
