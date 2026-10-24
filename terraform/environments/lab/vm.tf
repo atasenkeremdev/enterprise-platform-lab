@@ -1,4 +1,4 @@
-# Already provisioned through SSH. Import before any plan/apply; see README.
+# Adopt the existing VM through the reviewed declarative import plan.
 resource "proxmox_virtual_environment_vm" "lab_k3s_01" {
   node_name     = "pve"
   vm_id         = 200
@@ -23,11 +23,11 @@ resource "proxmox_virtual_environment_vm" "lab_k3s_01" {
   disk {
     datastore_id = "nvme-vm"
     interface    = "scsi0"
-    import_from  = local.ubuntu_2404_image_id
-    size         = 40
-    discard      = "on"
-    iothread     = true
-    ssd          = true
+    # Existing disk: image import is a creation-time operation, not adoption.
+    size     = 40
+    discard  = "on"
+    iothread = true
+    ssd      = true
   }
 
   initialization {

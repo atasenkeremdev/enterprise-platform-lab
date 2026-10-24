@@ -1,5 +1,3 @@
-locals {
-  # Existing, checksum-verified image. Managed outside Terraform to avoid
-  # downloading it again or deleting the shared source image.
-  ubuntu_2404_image_id = "local:import/noble-server-cloudimg-amd64.qcow2"
-}
+# The checksum-verified source image remains managed outside Terraform:
+# local:import/noble-server-cloudimg-amd64.qcow2
+# VM 200 already has its disk; do not add import_from during adoption.

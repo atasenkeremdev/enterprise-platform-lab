@@ -86,6 +86,6 @@ sudo sshd -T | grep -E '^(pubkeyauthentication|passwordauthentication|kbdinterac
 
 Expected results: hostname `lab-k3s-01`, Ubuntu 24.04.5, cloud-init done, an active DHCP interface and default route, working DNS, 2 CPUs, the recorded disk size, active SSH, and zero failed units. These results were observed during the documentation inspection. K3s is planned and was not installed or tested in this task.
 
-## Adoption preflight update — 2026-10-25
+## Adoption completed — 2026-10-25
 
-Adoption preflight reverified running power state, successful public-key SSH, completed cloud-init, 2 CPUs, 3072 MiB configured RAM, the 40 GiB disk, DHCP address `192.168.10.226`, active SSH, and zero failed units. No import or infrastructure mutation occurred.
+Terraform subsequently imported VM 200 with zero resource changes. Post-import checks confirmed running power state, no pending Proxmox configuration changes, working guest SSH, completed cloud-init, active SSH, and zero failed systemd units. No stop or reboot was performed.

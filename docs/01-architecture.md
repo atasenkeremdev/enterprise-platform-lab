@@ -45,13 +45,13 @@ The system root volume is approximately 68.1 GiB, swap 7.6 GiB, and `pve/data` 1
 - **Official Ubuntu cloud image:** use cloud-init for repeatable identity, SSH keys, and DHCP configuration.
 - **One small VM:** allocate 2 vCPU and 3072 MiB RAM as a starting point; measure available capacity before adding platform services.
 - **DHCP:** reuse the existing LAN service; address stability is not guaranteed.
-- **CLI bootstrap, Terraform adoption:** the VM was created through SSH because API credentials were not loaded. Adoption remains pending, so Terraform is not yet the authoritative state record for the VM.
+- **CLI bootstrap, Terraform adoption:** the VM was created through SSH because API credentials were not loaded. VM 200 has since been adopted into local Terraform state with a verified zero-change plan.
 - **Deletion safeguards:** Proxmox protection and Terraform `prevent_destroy` are configured. Neither replaces review, backups, or explicit authorization.
 
 ## Management plane
 
 The operator uses the local `proxmox-lab` SSH alias and an existing Ed25519 key. Terraform targets the private Proxmox API on port 8006. Guest login uses `ubuntu` with public-key authentication. See [security](05-security.md) for the current root SSH access and TLS risks.
 
-## Adoption preflight update — 2026-10-25
+## Adoption completed — 2026-10-25
 
-The adoption preflight reverified VM 200 and the existing image/storage references without changing infrastructure. Terraform remains a desired configuration record until API authentication is supplied and state adoption succeeds.
+VM 200 is now in local Terraform state after an import-only apply. A fresh plan reports no changes; the VM remained running and reachable. The source image remains outside Terraform ownership.

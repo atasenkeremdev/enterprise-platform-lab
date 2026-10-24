@@ -10,7 +10,7 @@ A practical platform engineering lab built on a single Proxmox host. The project
 
 ## Current status
 
-Verified on **2026-10-25** using read-only Proxmox, guest SSH, Terraform state, and repository checks.
+Verified on **2026-10-25** using Proxmox, guest SSH, a Terraform import-only apply, a zero-change plan, and repository checks.
 
 | Component | Status |
 | --- | --- |
@@ -20,7 +20,7 @@ Verified on **2026-10-25** using read-only Proxmox, guest SSH, Terraform state, 
 | Guest OS | Ubuntu 24.04.5 LTS |
 | Guest network | DHCP, observed `192.168.10.226/24` |
 | SSH | Public-key login verified; password authentication disabled |
-| Terraform | Formatting and validation pass; VM state adoption pending |
+| Terraform | VM 200 imported; zero-change plan verified |
 | K3s / GitOps / observability | Planned; not installed by this project |
 
 All addresses shown are **private LAN addresses**, not publicly reachable service endpoints. Access requires the lab LAN or an independently configured trusted access path. The DHCP address can change.
@@ -34,7 +34,7 @@ flowchart LR
     Bridge --- VM[Ubuntu lab-k3s-01 / VM 200]
     PVE --> VM
     NVMe[NVMe LVM-thin / nvme-vm] --> VM
-    TF[Terraform configuration / adoption pending] -.-> PVE
+    TF[Terraform / VM 200 adopted] -.-> PVE
 ```
 
 The host uses an Intel Core i5-6500T, approximately 8 GiB RAM, a SATA system SSD, and a separate NVMe VM datastore. The current toolchain is Terraform 1.17.0 with bpg/proxmox 0.118.0, Proxmox CLI, OpenSSH, and Ubuntu cloud-init. Kubernetes and GitOps tools remain roadmap decisions.
@@ -62,7 +62,7 @@ ssh -o StrictHostKeyChecking=yes -o IdentitiesOnly=yes \
 
 The key path and SSH alias are operator-local prerequisites, not files distributed with this repository. Follow the [management access instructions](docs/02-proxmox-setup.md) and [guest verification procedures](docs/04-ubuntu-vm.md).
 
-**VM 200 was provisioned with Proxmox CLI, not Terraform apply.** Current Terraform state contains only a node data source. Read the [adoption procedure](docs/03-terraform.md) before any credentialed plan or apply. No successful VM import or zero-drift plan is claimed.
+**VM 200 was provisioned with Proxmox CLI and subsequently adopted by Terraform.** Local state now contains the node data source and VM resource. The import changed no infrastructure, and a fresh plan reports no changes. See the [adoption results](docs/03-terraform.md). State remains local and must be backed up securely; a fresh checkout does not include it.
 
 ## Documentation
 
@@ -77,6 +77,6 @@ The key path and SSH alias are operator-local prerequisites, not files distribut
 
 Never run `terraform destroy`, delete existing infrastructure, or change Proxmox host networking, storage configuration, or authentication without explicit authorization. Additional VMs and destructive operations require explicit approval. Keep state, plans, credentials, and private keys outside Git. Repository publication must remain private unless explicitly approved otherwise.
 
-## Adoption preflight update — 2026-10-25
+## Adoption completed — 2026-10-25
 
-Adoption preflight confirmed that VM 200 remains healthy, but a real Terraform plan is blocked by missing API credentials. State backup and provider lock consistency checks are complete; import and zero-drift verification remain pending. See the [preflight result](docs/03-terraform.md#adoption-preflight-result--2026-10-25).
+The reviewed import-only plan adopted VM 200 with zero additions, changes, or deletions. A follow-up plan returned no changes. The VM remained running and reachable with no pending configuration changes. K3s has not been installed.

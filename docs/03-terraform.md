@@ -10,7 +10,7 @@ Terraform 1.17.0 and bpg/proxmox 0.118.0 were used for successful local validati
 terraform/environments/lab/
 ├── .terraform.lock.hcl  # Provider version and checksums
 ├── data.tf             # Node discovery data source
-├── images.tf           # Existing image volume ID; no download resource
+├── images.tf           # Source image provenance; no managed image
 ├── imports.tf          # Declarative adoption of pve/200
 ├── outputs.tf          # Node-name output
 ├── providers.tf        # Private API endpoint; current TLS exception
@@ -23,9 +23,9 @@ The provider endpoint is `https://192.168.10.10:8006/`, accessible only through 
 
 ## Current state versus desired configuration
 
-**Completed:** VM 200 exists and is validated operationally. It was provisioned through `qm` over SSH, not Terraform apply. Terraform formatting and validation pass.
+**Completed on 2026-10-25:** VM 200 was adopted into local Terraform state without changing the running VM. Formatting and validation pass. The reviewed plan reported `1 to import, 0 to add, 0 to change, 0 to destroy`; applying that saved plan reported `1 imported, 0 added, 0 changed, 0 destroyed`. A fresh plan with `-detailed-exitcode` returned exit code 0 and `No changes`.
 
-**Pending:** current local state contains only `data.proxmox_virtual_environment_nodes.available`. No VM import, Terraform provisioning apply, successful live API plan, or zero-drift result has been demonstrated.
+State now contains `data.proxmox_virtual_environment_nodes.available` and `proxmox_virtual_environment_vm.lab_k3s_01` (ID 200).
 
 `imports.tf` declares:
 
@@ -36,7 +36,7 @@ import {
 }
 ```
 
-The identifier follows the [provider's VM import format](https://bpg.sh/docs/resources/virtual_environment_vm/). This declaration is not evidence of a completed import. Do not remove it and attempt to create another VM with the same ID.
+The identifier follows the [provider's VM import format](https://bpg.sh/docs/resources/virtual_environment_vm/). The declaration is retained as adoption history; the successful import and follow-up plan were verified separately. Do not attempt to create another VM with the same ID.
 
 ## Image download timeout and reuse
 
@@ -48,7 +48,7 @@ A complete existing image at `/var/lib/vz/import/noble-server-cloudimg-amd64.img
 04e8f2461a16a44e78a370284471f29616cdd9baf1893df25807b71f985b6c94
 ```
 
-The SHA-256 was rechecked during documentation. A hard link named `noble-server-cloudimg-amd64.qcow2` shares the same inode and content; Proxmox recognizes it as `local:import/noble-server-cloudimg-amd64.qcow2`. No second download or duplicate image allocation was required. Terraform references this existing volume through a local value; it does not own or delete the shared source file.
+The SHA-256 was rechecked during documentation. A hard link named `noble-server-cloudimg-amd64.qcow2` shares the same inode and content; Proxmox recognizes it as `local:import/noble-server-cloudimg-amd64.qcow2`. No second download or duplicate image allocation was required. The source volume is documented in `images.tf`; Terraform does not own or delete it. The existing disk is adopted without `import_from`.
 
 Read-only verification:
 
@@ -75,24 +75,26 @@ The lock file and `versions.tf` both select provider 0.118.0. Historical lock co
 
 The default `ssh_public_key_path` points to the existing operator public key. On another workstation, use a local ignored variable file containing only an appropriate public-key path. Preserve the currently authorized key while adopting the VM to avoid accidental access changes.
 
-## Pending adoption procedure
+## Completed adoption procedure
 
-This is a future operational procedure, **not performed during documentation**:
+1. Backed up local state with restrictive permissions and verified Git exclusions.
+2. Disabled shell tracing and loaded the trusted local `.env` using `set -a; source ./.env; set +a` before Terraform commands. Checked credential presence without printing values.
+3. Inspected the initial live plan: it proposed an in-place disk change solely to add `import_from`. This plan was never applied.
+4. Removed the creation-time `disk.import_from` setting and unused image local, matching the existing disk instead of altering it. No cloud-init, hardware, authentication, or power changes were needed.
+5. Saved and reviewed a new import-only plan, then applied that exact plan with `terraform apply -input=false -no-color adoption.tfplan`.
+6. Verified a fresh zero-change plan, state membership, running power status, no pending Proxmox configuration changes, guest SSH access, completed cloud-init, active SSH service, and zero failed systemd units. Guest uptime remained continuous; no reboot or stop was performed.
 
-1. Make a protected backup of local state outside Git and establish the intended state owner.
-2. Load the existing API credential securely; confirm LAN access and review current RBAC.
-3. Run `terraform -chdir=terraform/environments/lab plan`. A plan can contact the API and update local working files; keep its output private.
-4. Require an import of `pve/200` with **zero additions, changes, or deletions**. Investigate any replacement, disk operation, cloud-init change, permission failure, or root-only operation before proceeding. Do not broaden privileges automatically.
-5. In a separately authorized operational session, apply only the reviewed import plan. No apply or import was executed for this documentation task.
-6. Verify the VM resource is in state and a new plan reports no changes; recheck guest SSH and power status.
+The provider could not start under the local sandbox; the live Terraform commands succeeded with approved execution outside that sandbox. No provider upgrade or privilege change was required.
 
-Do not use the CLI import workflow in parallel with the declarative workflow. Do not run `terraform destroy` or use targeted operations to bypass protection.
+For future plans, load the trusted local environment without tracing or echoing credentials. Stop if a plan proposes deleting, replacing, stopping, or recreating VM 200. Do not use targeted operations to bypass protection. K3s remains uninstalled.
 
 ## State management
 
 No remote backend is configured. Local state and backups are ignored, are not portable through Git, and can contain sensitive data. `.terraform/`, saved plans, variable files, and crash logs are excluded. Protect state with restrictive local permissions, encrypted backups, and a single writer until a remote backend with encryption, locking, and scoped access is designed and tested. Commit the provider lock file; never commit state or credentials.
 
-## Adoption preflight result — 2026-10-25
+## Historical preflight result — 2026-10-25
+
+This earlier credential failure was resolved by the completed adoption above.
 
 The existing state was backed up locally before adoption work, using a timestamped `terraform.tfstate.pre-adoption.*.backup` filename and mode `0600`. Git ignore checks confirmed that the backup and state remain excluded. Do not publish these files.
 
@@ -105,6 +107,6 @@ Unable to create Proxmox VE API credentials
 must provide either username and password, an API token, or a ticket
 ```
 
-No API credential was loaded in the agent process or the checked repository-local environment files. No import or apply was executed, and **zero drift is not verified**. State still contains only the node data source.
+At that preflight, no API credential was loaded, no import or apply was executed, and zero drift was not verified. State then contained only the node data source. The subsequent successful adoption supersedes this result.
 
-To resume, make the existing credential available through an approved secret manager or place `PROXMOX_VE_API_TOKEN` in the ignored `terraform/environments/lab/.env` using a secure local editor. Restrict that file to mode `0600` and notify the operator performing adoption. Terraform does not load `.env` automatically: its value must be injected into the Terraform child process without printing it or enabling shell tracing. Do not paste credentials into chat or commit the file. No new token or host authentication changes are required by this prerequisite.
+The prerequisite at that time was to make the existing credential available through an approved secret manager or place `PROXMOX_VE_API_TOKEN` in the ignored `terraform/environments/lab/.env` using a secure local editor. Restrict that file to mode `0600` and notify the operator performing adoption. Terraform does not load `.env` automatically: its value must be injected into the Terraform child process without printing it or enabling shell tracing. Do not paste credentials into chat or commit the file. No new token or host authentication changes are required by this prerequisite.
