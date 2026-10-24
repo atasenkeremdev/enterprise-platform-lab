@@ -44,3 +44,7 @@ git ls-remote origin refs/heads/main
 ```
 
 Do not change repository visibility to public without explicit approval.
+
+## Adoption preflight update — 2026-10-25
+
+The latest adoption attempt is blocked by missing API authentication. State backup, live guest/image verification, and provider lock consistency are complete. Supply the existing credential securely, then complete import and a verified zero-change plan. Single-node K3s is the next platform milestone after adoption; it has not been installed.

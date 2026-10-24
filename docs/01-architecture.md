@@ -51,3 +51,7 @@ The system root volume is approximately 68.1 GiB, swap 7.6 GiB, and `pve/data` 1
 ## Management plane
 
 The operator uses the local `proxmox-lab` SSH alias and an existing Ed25519 key. Terraform targets the private Proxmox API on port 8006. Guest login uses `ubuntu` with public-key authentication. See [security](05-security.md) for the current root SSH access and TLS risks.
+
+## Adoption preflight update — 2026-10-25
+
+The adoption preflight reverified VM 200 and the existing image/storage references without changing infrastructure. Terraform remains a desired configuration record until API authentication is supplied and state adoption succeeds.

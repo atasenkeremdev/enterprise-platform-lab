@@ -48,3 +48,7 @@ For a new operator workstation, generate and protect its own key through the aut
 | Manifest signature verification not recorded | Add signature and immutable image provenance checks | Planned |
 
 Safeguards do not replace backups or approval. Do not run destroy, remove volumes, change host network/storage/authentication, or add VMs without authorization. Keep GitHub publication private by default; private repository access is an additional control, not permission to store secrets.
+
+## Adoption preflight update — 2026-10-25
+
+The adoption preflight created a local mode-`0600` state backup and confirmed its Git exclusion. No API credential was available; the plan failed before import. Keep any credential handoff local and ignored. Provider lock metadata was synchronized without upgrading the provider or changing checksums.

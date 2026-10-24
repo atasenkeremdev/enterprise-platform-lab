@@ -71,3 +71,7 @@ ssh -o BatchMode=yes -o StrictHostKeyChecking=yes proxmox-lab 'qm status 200'
 ```
 
 Root SSH is the current operational access path; a restricted administrative account is a planned security improvement requiring separate authorization.
+
+## Adoption preflight update — 2026-10-25
+
+The adoption preflight confirmed that Terraform cannot construct API credentials in the current process. The existing identity and token metadata do not supply the secret. Provide the existing credential securely; do not create a replacement token or change host authentication for this documentation update.

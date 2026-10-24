@@ -71,7 +71,7 @@ terraform -chdir=terraform/environments/lab validate
 terraform -chdir=terraform/environments/lab state list
 ```
 
-The lock file selects 0.118.0 but retains historical constraint metadata `~> 0.93`; `versions.tf` pins 0.118.0. This has not prevented validation. Synchronize the metadata in a future controlled dependency maintenance change; do not upgrade blindly.
+The lock file and `versions.tf` both select provider 0.118.0. Historical lock constraint metadata was synchronized with the existing version pin without changing the provider version or any checksum. `terraform init -lockfile=readonly -input=false` succeeded after this correction.
 
 The default `ssh_public_key_path` points to the existing operator public key. On another workstation, use a local ignored variable file containing only an appropriate public-key path. Preserve the currently authorized key while adopting the VM to avoid accidental access changes.
 
@@ -91,3 +91,20 @@ Do not use the CLI import workflow in parallel with the declarative workflow. Do
 ## State management
 
 No remote backend is configured. Local state and backups are ignored, are not portable through Git, and can contain sensitive data. `.terraform/`, saved plans, variable files, and crash logs are excluded. Protect state with restrictive local permissions, encrypted backups, and a single writer until a remote backend with encryption, locking, and scoped access is designed and tested. Commit the provider lock file; never commit state or credentials.
+
+## Adoption preflight result — 2026-10-25
+
+The existing state was backed up locally before adoption work, using a timestamped `terraform.tfstate.pre-adoption.*.backup` filename and mode `0600`. Git ignore checks confirmed that the backup and state remain excluded. Do not publish these files.
+
+VM 200 remained running with unchanged hardware references. Guest public-key SSH, cloud-init completion, disk size, CPU count, DHCP address, and SSH service health were rechecked; no failed systemd units were reported. Image size, checksum, and the shared inode of the two filenames were verified again.
+
+A real `terraform plan -input=false -no-color` failed before an adoption plan could be generated:
+
+```text
+Unable to create Proxmox VE API credentials
+must provide either username and password, an API token, or a ticket
+```
+
+No API credential was loaded in the agent process or the checked repository-local environment files. No import or apply was executed, and **zero drift is not verified**. State still contains only the node data source.
+
+To resume, make the existing credential available through an approved secret manager or place `PROXMOX_VE_API_TOKEN` in the ignored `terraform/environments/lab/.env` using a secure local editor. Restrict that file to mode `0600` and notify the operator performing adoption. Terraform does not load `.env` automatically: its value must be injected into the Terraform child process without printing it or enabling shell tracing. Do not paste credentials into chat or commit the file. No new token or host authentication changes are required by this prerequisite.

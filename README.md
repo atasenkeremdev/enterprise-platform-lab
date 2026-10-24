@@ -76,3 +76,7 @@ The key path and SSH alias are operator-local prerequisites, not files distribut
 ## Operational boundaries
 
 Never run `terraform destroy`, delete existing infrastructure, or change Proxmox host networking, storage configuration, or authentication without explicit authorization. Additional VMs and destructive operations require explicit approval. Keep state, plans, credentials, and private keys outside Git. Repository publication must remain private unless explicitly approved otherwise.
+
+## Adoption preflight update — 2026-10-25
+
+Adoption preflight confirmed that VM 200 remains healthy, but a real Terraform plan is blocked by missing API credentials. State backup and provider lock consistency checks are complete; import and zero-drift verification remain pending. See the [preflight result](docs/03-terraform.md#adoption-preflight-result--2026-10-25).
