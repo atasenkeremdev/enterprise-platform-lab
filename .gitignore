@@ -15,6 +15,18 @@ id_rsa
 id_ed25519*
 !*.pub
 known_hosts*
+.ssh/
+.aws/
+.azure/
+.kube/
+.config/gcloud/
+.config/gh/
+.terraformrc
+terraform.rc
+credentials.tfrc.json
+*.p12
+*.pfx
+*.kubeconfig
 
 # Secrets and local configuration
 *.tfvars
