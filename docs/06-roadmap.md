@@ -9,8 +9,8 @@ The roadmap separates verified outcomes from future work. No K3s installation, i
 | Proxmox and storage baseline | Completed | Host, bridge, and datastores inspected and documented |
 | Ubuntu bootstrap | Completed | VM 200 running; cloud-init, DHCP, DNS, and public-key SSH verified |
 | Image reuse workaround | Completed | Existing image integrity and checksum verified; no duplicate download |
-| Project documentation | Prepared | Architecture, operations, security, and state limitations documented |
-| Private GitHub publication | Pending | Authenticated publication, private visibility, branch push verified |
+| Project documentation | Completed | Architecture, operations, security, and state limitations documented |
+| Private GitHub publication | Completed | Private repository created; `main` pushed and visibility verified |
 | Terraform adoption | Pending | Import VM 200 without mutation; successful zero-change follow-up plan |
 | Single-node K3s | Planned | Version and resource budget selected; node Ready; workloads survive reboot |
 | GitOps delivery | Planned | Choose Flux or Argo CD; repository reconciliation and rollback demonstrated |
@@ -31,20 +31,16 @@ After adoption, select a supported pinned K3s release, confirm guest patch statu
 
 Select one GitOps controller and define repository layout, environment promotion, and encrypted secret delivery. Start with one application and demonstrate reconciliation and rollback. Add resource-conscious metrics and logs, with explicit retention and alert ownership. Tool choices and successful deployments remain unverified until implemented.
 
-## Publication prerequisite
+## GitHub publication
 
-At documentation inspection, no Git remote existed and GitHub CLI (`gh`) was not installed. On the operator's macOS workstation with Homebrew:
+Published to [atasenkeremdev/enterprise-platform-lab](https://github.com/atasenkeremdev/enterprise-platform-lab) with **private** visibility. GitHub CLI authentication was confirmed, the repository was created, and `main` was pushed with upstream tracking to `origin/main`. Access requires repository permission.
 
-```sh
-brew install gh
-gh auth login --hostname github.com --web --git-protocol https
-gh auth status
-```
-
-Resume publication after authentication. Before creating a repository, recheck remotes and whether the selected account already owns `enterprise-platform-lab`. Do not overwrite or repurpose an existing repository without reviewing it. For a new repository, the intended command is:
+For subsequent documentation updates, review staged content for secrets before committing and pushing. Verify publication with:
 
 ```sh
-gh repo create enterprise-platform-lab --private --source=. --remote=origin --push
+gh repo view atasenkeremdev/enterprise-platform-lab --json url,visibility,defaultBranchRef
+git status --short
+git ls-remote origin refs/heads/main
 ```
 
-After publication, verify repository visibility and the pushed branch. No repository URL or successful push is claimed until those checks pass.
+Do not change repository visibility to public without explicit approval.
