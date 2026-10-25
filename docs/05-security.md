@@ -56,3 +56,7 @@ Adoption completed with credentials loaded from the ignored local `.env` without
 ## K3s controls — 2026-10-25
 
 K3s secrets encryption is enabled. The canonical admin kubeconfig is root:ubuntu mode 0640, accessed through a symlink inside ubuntu's mode-0700 `.kube` directory; its contents remain outside Git. The guest-only persistent nftables guard blocks eth0 ingress to TCP 6443/6444/10250 and UDP 8472 before K3s starts. A direct workstation-to-API connection was blocked and the drop counter increased. Firewall persistence and K3s startup were verified after a guest reboot. UFW remains inactive; router exposure and general workload policy remain unaudited. Traefik/ServiceLB retain private-IP HTTP/HTTPS ingress. See [network boundaries and recovery limits](07-k3s.md).
+
+## Desktop dashboard access — 2026-10-25
+
+Headlamp Desktop on the Mac uses a dedicated read-only service account and one-hour TokenRequest credentials refreshed over existing SSH. Local kubeconfigs are mode 0600 and retain no administrator client key or permanent bearer token. The API is reached through a loopback-only SSH forward with CA and SAN verification. Node/namespace/system-pod access succeeds, while Secrets, deployment writes, and pod exec are denied. See [Headlamp operations](08-headlamp.md) for renewal, revocation, local app storage, and troubleshooting.

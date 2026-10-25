@@ -22,6 +22,7 @@ Verified on **2026-10-25** using Proxmox, guest SSH, a Terraform import-only app
 | SSH | Public-key login verified; password authentication disabled |
 | Terraform | VM 200 imported; zero-change plan verified |
 | K3s | v1.36.5+k3s1; node Ready; DNS, ingress, and reboot recovery verified |
+| Headlamp Desktop | Mac v0.46.0; read-only context and SSH API tunnel verified |
 | GitOps / observability stack | Planned; controllers and heavyweight monitoring not installed |
 
 All addresses shown are **private LAN addresses**, not publicly reachable service endpoints. Access requires the lab LAN or an independently configured trusted access path. The DHCP address can change.
@@ -74,6 +75,7 @@ The key path and SSH alias are operator-local prerequisites, not files distribut
 5. [Security posture and improvements](docs/05-security.md)
 6. [Roadmap and acceptance criteria](docs/06-roadmap.md)
 7. [K3s installation, validation, and operations](docs/07-k3s.md)
+8. [Headlamp Desktop access](docs/08-headlamp.md)
 
 ## Operational boundaries
 

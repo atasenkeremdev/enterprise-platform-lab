@@ -13,6 +13,7 @@ The roadmap separates verified outcomes from future work. The documentation mile
 | Private GitHub publication | Completed | Private repository created; `main` pushed and visibility verified |
 | Terraform adoption | Completed | VM 200 imported without mutation; zero-change follow-up plan verified |
 | Single-node K3s | Completed | Pinned v1.36.5+k3s1; node Ready; DNS/ingress and workload reboot recovery verified |
+| Desktop cluster access | Completed | Headlamp 0.46.0; read-only identity; TLS-verified SSH tunnel; backend discovery validated |
 | GitOps delivery | Planned | Choose Flux or Argo CD; repository reconciliation and rollback demonstrated |
 | Observability | Planned | Metrics, dashboards, actionable alerts, and log retention within capacity |
 | Security baseline | Planned | Trusted API TLS, scoped access, patching, secret management, exposure review |
