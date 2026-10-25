@@ -86,7 +86,7 @@ The default `ssh_public_key_path` points to the existing operator public key. On
 
 The provider could not start under the local sandbox; the live Terraform commands succeeded with approved execution outside that sandbox. No provider upgrade or privilege change was required.
 
-For future plans, load the trusted local environment without tracing or echoing credentials. Stop if a plan proposes deleting, replacing, stopping, or recreating VM 200. Do not use targeted operations to bypass protection. K3s remains uninstalled.
+For future plans, load the trusted local environment without tracing or echoing credentials. Stop if a plan proposes deleting, replacing, stopping, or recreating VM 200. Do not use targeted operations to bypass protection. K3s was subsequently installed inside the guest; see [K3s operations](07-k3s.md).
 
 ## State management
 
@@ -110,3 +110,7 @@ must provide either username and password, an API token, or a ticket
 At that preflight, no API credential was loaded, no import or apply was executed, and zero drift was not verified. State then contained only the node data source. The subsequent successful adoption supersedes this result.
 
 The prerequisite at that time was to make the existing credential available through an approved secret manager or place `PROXMOX_VE_API_TOKEN` in the ignored `terraform/environments/lab/.env` using a secure local editor. Restrict that file to mode `0600` and notify the operator performing adoption. Terraform does not load `.env` automatically: its value must be injected into the Terraform child process without printing it or enabling shell tracing. Do not paste credentials into chat or commit the file. No new token or host authentication changes are required by this prerequisite.
+
+## Post-K3s verification — 2026-10-25
+
+After guest-only K3s installation and a controlled guest reboot, formatting and validation passed, and a fresh credentialed `terraform plan -input=false -no-color -detailed-exitcode` returned exit code 0 with no changes. No VM resource or Proxmox host configuration changes were needed.

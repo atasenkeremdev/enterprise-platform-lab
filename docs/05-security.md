@@ -44,7 +44,7 @@ For a new operator workstation, generate and protect its own key through the aut
 | DHCP address may change | Add an authorized reservation and internal DNS | Planned |
 | First-boot upgrades disabled | Establish patching cadence and reboot validation | Pending |
 | No verified backup/restore evidence | Define backups and demonstrate restoration | Planned |
-| Shared flat LAN; firewall posture unaudited | Audit exposure before Kubernetes ingress | Planned |
+| Shared flat LAN; guest control-plane guard verified | Audit router exposure and workload ingress policy | Partially addressed; see K3s operations |
 | Manifest signature verification not recorded | Add signature and immutable image provenance checks | Planned |
 
 Safeguards do not replace backups or approval. Do not run destroy, remove volumes, change host network/storage/authentication, or add VMs without authorization. Keep GitHub publication private by default; private repository access is an additional control, not permission to store secrets.
@@ -52,3 +52,7 @@ Safeguards do not replace backups or approval. Do not run destroy, remove volume
 ## Adoption completed — 2026-10-25
 
 Adoption completed with credentials loaded from the ignored local `.env` without displaying values. State, state backups, and the saved plan remain ignored; current state, plan, and `.env` were restricted to mode `0600`. No token, RBAC, or authentication changes were made. Local state and backup limitations remain.
+
+## K3s controls — 2026-10-25
+
+K3s secrets encryption is enabled. The canonical admin kubeconfig is root:ubuntu mode 0640, accessed through a symlink inside ubuntu's mode-0700 `.kube` directory; its contents remain outside Git. The guest-only persistent nftables guard blocks eth0 ingress to TCP 6443/6444/10250 and UDP 8472 before K3s starts. A direct workstation-to-API connection was blocked and the drop counter increased. Firewall persistence and K3s startup were verified after a guest reboot. UFW remains inactive; router exposure and general workload policy remain unaudited. Traefik/ServiceLB retain private-IP HTTP/HTTPS ingress. See [network boundaries and recovery limits](07-k3s.md).

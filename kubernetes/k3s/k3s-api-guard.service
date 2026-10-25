@@ -1,0 +1,11 @@
+[Unit]
+Description=Restrict single-node K3s control-plane ingress on guest LAN NIC
+Before=k3s.service
+After=network-pre.target
+Wants=network-pre.target
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/nft -f /etc/rancher/k3s/api-guard.nft
+RemainAfterExit=yes
+[Install]
+WantedBy=multi-user.target

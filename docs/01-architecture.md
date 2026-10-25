@@ -55,3 +55,7 @@ The operator uses the local `proxmox-lab` SSH alias and an existing Ed25519 key.
 ## Adoption completed — 2026-10-25
 
 VM 200 is now in local Terraform state after an import-only apply. A fresh plan reports no changes; the VM remained running and reachable. The source image remains outside Terraform ownership.
+
+## Kubernetes layer — 2026-10-25
+
+VM 200 now hosts a single K3s v1.36.5+k3s1 server with embedded SQLite. Containerd, Flannel VXLAN, CoreDNS, Traefik, ServiceLB, and local-path storage remain lightweight defaults. Pod/service ranges are 10.42.0.0/16 and 10.43.0.0/16. Guest-only firewall rules restrict control-plane access to internal traffic and SSH-based administration. See [K3s operations](07-k3s.md) for the verified configuration and single-node limitations.

@@ -2,7 +2,7 @@
 
 [Project overview](../README.md)
 
-The roadmap separates verified outcomes from future work. The documentation milestone was followed by a successful Terraform import-only adoption. K3s remains uninstalled.
+The roadmap separates verified outcomes from future work. The documentation milestone was followed by a successful Terraform import-only adoption. K3s installation and reboot recovery are now verified.
 
 | Milestone | Status | Acceptance criteria |
 | --- | --- | --- |
@@ -12,7 +12,7 @@ The roadmap separates verified outcomes from future work. The documentation mile
 | Project documentation | Completed | Architecture, operations, security, and state limitations documented |
 | Private GitHub publication | Completed | Private repository created; `main` pushed and visibility verified |
 | Terraform adoption | Completed | VM 200 imported without mutation; zero-change follow-up plan verified |
-| Single-node K3s | Planned | Version and resource budget selected; node Ready; workloads survive reboot |
+| Single-node K3s | Completed | Pinned v1.36.5+k3s1; node Ready; DNS/ingress and workload reboot recovery verified |
 | GitOps delivery | Planned | Choose Flux or Argo CD; repository reconciliation and rollback demonstrated |
 | Observability | Planned | Metrics, dashboards, actionable alerts, and log retention within capacity |
 | Security baseline | Planned | Trusted API TLS, scoped access, patching, secret management, exposure review |
@@ -25,7 +25,7 @@ The [adoption results](03-terraform.md) confirm VM 200 in local state, an import
 
 ## Single-node K3s
 
-After adoption, select a supported pinned K3s release, confirm guest patch status, and review CPU/RAM headroom and network requirements. Choose ingress, storage, and backup behavior explicitly. A single-node cluster is a learning platform with a single failure domain, not a highly available service. Do not provision additional VMs without approval.
+Installed the observed stable-channel release v1.36.5+k3s1 with SQLite, containerd, CoreDNS, Flannel, Traefik, ServiceLB, and local-path storage. [Installation and validation evidence](07-k3s.md) includes resource headroom and guest reboot recovery. Guest patch certification, trusted ingress TLS, and backup/restore validation remain follow-up work. A single-node cluster is a learning platform with a single failure domain, not a highly available service. Do not provision additional VMs without approval.
 
 ## GitOps and observability
 
@@ -47,4 +47,4 @@ Do not change repository visibility to public without explicit approval.
 
 ## Adoption completed — 2026-10-25
 
-Adoption completed using credentials loaded from the ignored local `.env`, without printing their values. VM 200 remained running; no resource changes were applied. Single-node K3s is the next planned milestone and has not been installed.
+Adoption completed using credentials loaded from the ignored local `.env`, without printing their values. VM 200 remained running; no resource changes were applied. Single-node K3s was subsequently installed and validated; GitOps remains planned.

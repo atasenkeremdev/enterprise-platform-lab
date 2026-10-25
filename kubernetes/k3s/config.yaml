@@ -1,0 +1,9 @@
+# Single-server lab: SQLite is selected by omitting external datastore/cluster-init.
+node-name: lab-k3s-01
+flannel-backend: vxlan
+flannel-iface: eth0
+cluster-cidr: 10.42.0.0/16
+service-cidr: 10.43.0.0/16
+write-kubeconfig-mode: "0640"
+write-kubeconfig-group: ubuntu
+secrets-encryption: true

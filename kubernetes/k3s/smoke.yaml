@@ -1,0 +1,134 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: platform-smoke
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: smoke-content
+  namespace: platform-smoke
+data:
+  index.html: "enterprise-platform-lab-ok\n"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smoke-web
+  namespace: platform-smoke
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smoke-web
+  template:
+    metadata:
+      labels:
+        app: smoke-web
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: web
+          image: busybox:1.37.0
+          command: ["httpd", "-f", "-p", "8080", "-h", "/www"]
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 100m
+              memory: 32Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+          volumeMounts:
+            - name: content
+              mountPath: /www
+              readOnly: true
+      volumes:
+        - name: content
+          configMap:
+            name: smoke-content
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: smoke-web
+  namespace: platform-smoke
+spec:
+  selector:
+    app: smoke-web
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: smoke-web
+  namespace: platform-smoke
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: smoke.lab.invalid
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: smoke-web
+                port:
+                  number: 80
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: smoke-network
+  namespace: platform-smoke
+spec:
+  backoffLimit: 2
+  activeDeadlineSeconds: 180
+  template:
+    spec:
+      restartPolicy: Never
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: check
+          image: busybox:1.37.0
+          command:
+            - sh
+            - -ec
+            - |
+              nslookup kubernetes.default.svc.cluster.local
+              nslookup github.com
+              wget -qO- http://smoke-web.platform-smoke.svc.cluster.local | grep enterprise-platform-lab-ok
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 100m
+              memory: 32Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]

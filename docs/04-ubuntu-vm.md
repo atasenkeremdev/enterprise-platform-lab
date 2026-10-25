@@ -84,8 +84,12 @@ systemctl --failed --no-pager
 sudo sshd -T | grep -E '^(pubkeyauthentication|passwordauthentication|kbdinteractiveauthentication) '
 ```
 
-Expected results: hostname `lab-k3s-01`, Ubuntu 24.04.5, cloud-init done, an active DHCP interface and default route, working DNS, 2 CPUs, the recorded disk size, active SSH, and zero failed units. These results were observed during the documentation inspection. K3s is planned and was not installed or tested in this task.
+Expected results: hostname `lab-k3s-01`, Ubuntu 24.04.5, cloud-init done, an active DHCP interface and default route, working DNS, 2 CPUs, the recorded disk size, active SSH, and zero failed units. These results were observed during the documentation inspection. K3s was subsequently installed and tested as described in the [K3s operations guide](07-k3s.md).
 
 ## Adoption completed — 2026-10-25
 
 Terraform subsequently imported VM 200 with zero resource changes. Post-import checks confirmed running power state, no pending Proxmox configuration changes, working guest SSH, completed cloud-init, active SSH, and zero failed systemd units. No stop or reboot was performed.
+
+## K3s guest milestone — 2026-10-25
+
+K3s v1.36.5+k3s1 is enabled on this guest. A controlled guest reboot verified automatic service/firewall startup and workload recovery; hardware and cloud-init settings remained unchanged. The DHCP address was still 192.168.10.226 after reboot. See [K3s configuration and access](07-k3s.md).

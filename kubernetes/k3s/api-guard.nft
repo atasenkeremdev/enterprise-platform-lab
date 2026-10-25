@@ -1,0 +1,8 @@
+table inet k3s_api_guard {
+  chain input {
+    type filter hook input priority -10; policy accept;
+    # Single-node control plane is accessible through SSH only.
+    iifname "eth0" tcp dport { 6443, 6444, 10250 } counter drop
+    iifname "eth0" udp dport 8472 counter drop
+  }
+}

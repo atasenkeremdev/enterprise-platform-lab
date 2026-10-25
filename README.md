@@ -21,7 +21,8 @@ Verified on **2026-10-25** using Proxmox, guest SSH, a Terraform import-only app
 | Guest network | DHCP, observed `192.168.10.226/24` |
 | SSH | Public-key login verified; password authentication disabled |
 | Terraform | VM 200 imported; zero-change plan verified |
-| K3s / GitOps / observability | Planned; not installed by this project |
+| K3s | v1.36.5+k3s1; node Ready; DNS, ingress, and reboot recovery verified |
+| GitOps / observability stack | Planned; controllers and heavyweight monitoring not installed |
 
 All addresses shown are **private LAN addresses**, not publicly reachable service endpoints. Access requires the lab LAN or an independently configured trusted access path. The DHCP address can change.
 
@@ -37,7 +38,7 @@ flowchart LR
     TF[Terraform / VM 200 adopted] -.-> PVE
 ```
 
-The host uses an Intel Core i5-6500T, approximately 8 GiB RAM, a SATA system SSD, and a separate NVMe VM datastore. The current toolchain is Terraform 1.17.0 with bpg/proxmox 0.118.0, Proxmox CLI, OpenSSH, and Ubuntu cloud-init. Kubernetes and GitOps tools remain roadmap decisions.
+The host uses an Intel Core i5-6500T, approximately 8 GiB RAM, a SATA system SSD, and a separate NVMe VM datastore. The current toolchain is Terraform 1.17.0 with bpg/proxmox 0.118.0, Proxmox CLI, OpenSSH, and Ubuntu cloud-init. K3s uses SQLite, containerd, Flannel, CoreDNS, Traefik, and ServiceLB. GitOps remains planned.
 
 ## Quick start
 
@@ -72,6 +73,7 @@ The key path and SSH alias are operator-local prerequisites, not files distribut
 4. [Ubuntu VM configuration and verification](docs/04-ubuntu-vm.md)
 5. [Security posture and improvements](docs/05-security.md)
 6. [Roadmap and acceptance criteria](docs/06-roadmap.md)
+7. [K3s installation, validation, and operations](docs/07-k3s.md)
 
 ## Operational boundaries
 
@@ -79,4 +81,8 @@ Never run `terraform destroy`, delete existing infrastructure, or change Proxmox
 
 ## Adoption completed — 2026-10-25
 
-The reviewed import-only plan adopted VM 200 with zero additions, changes, or deletions. A follow-up plan returned no changes. The VM remained running and reachable with no pending configuration changes. K3s has not been installed.
+The reviewed import-only plan adopted VM 200 with zero additions, changes, or deletions. A follow-up plan returned no changes. The VM remained running and reachable with no pending configuration changes. K3s was subsequently installed and validated; see the K3s milestone below.
+
+## K3s installed — 2026-10-25
+
+The existing VM now runs pinned K3s `v1.36.5+k3s1` with embedded SQLite and the default lightweight packaged components. Node Ready, API health, internal/external DNS, service traffic, Traefik ingress, and recovery after a guest reboot were verified. The guest firewall blocks direct LAN access to control-plane ports; use kubectl as ubuntu over SSH. No Proxmox host changes or VM recreation occurred. Terraform still reports no changes. See [operations and limitations](docs/07-k3s.md); secret material remains outside Git.
