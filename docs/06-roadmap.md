@@ -14,6 +14,8 @@ The roadmap separates verified outcomes from future work. The documentation mile
 | Terraform adoption | Completed | VM 200 imported without mutation; zero-change follow-up plan verified |
 | Single-node K3s | Completed | Pinned v1.36.5+k3s1; node Ready; DNS/ingress and workload reboot recovery verified |
 | Desktop cluster access | Completed | Headlamp 0.46.0; read-only identity; TLS-verified SSH tunnel; backend discovery validated |
+| Local CPU inference | Completed | CT 201; pinned Ollama/model; SSH-only API; benchmarks and host/K3s health validated |
+| Model-driven execution agent | Not authorized | No SSH/Git/Terraform tools or agent installed |
 | GitOps delivery | Planned | Choose Flux or Argo CD; repository reconciliation and rollback demonstrated |
 | Observability | Planned | Metrics, dashboards, actionable alerts, and log retention within capacity |
 | Security baseline | Planned | Trusted API TLS, scoped access, patching, secret management, exposure review |
@@ -49,3 +51,7 @@ Do not change repository visibility to public without explicit approval.
 ## Adoption completed — 2026-10-25
 
 Adoption completed using credentials loaded from the ignored local `.env`, without printing their values. VM 200 remained running; no resource changes were applied. Single-node K3s was subsequently installed and validated; GitOps remains planned.
+
+## Local inference — 2026-10-28
+
+The [local LLM milestone](09-local-llm.md) is validated with one small Qwen model, a 1024-token context, and serial CPU inference. Larger models, additional users, or execution tools require a new capacity and security design. This milestone grants no model-driven SSH, Git, Terraform, or repository execution authority.

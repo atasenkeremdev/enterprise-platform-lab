@@ -25,7 +25,8 @@ The physical interface `nic0` is attached to Linux bridge `vmbr0`. The host has 
 | Proxmox management | `192.168.10.10`, private LAN only |
 | Router / observed DHCP server | `192.168.10.1` |
 | Ubuntu VM | DHCP lease `192.168.10.226/24` |
-| Guest NIC MAC | `BC:24:11:9F:91:F5` |
+| VM NIC MAC | `BC:24:11:9F:91:F5` |
+| AI LXC CT 201 | DHCP lease `192.168.10.162/24`; MAC `BC:24:11:88:8A:EF` |
 
 No public exposure, VPN, network segmentation, or router firewall policy was verified. The documented addresses do not represent public endpoints. DHCP reservation and internal DNS are future improvements.
 
@@ -35,7 +36,7 @@ No public exposure, VPN, network segmentation, or router firewall policy was ver
 | --- | --- | --- |
 | `local` | Directory `/var/lib/vz` on system disk | ISO, backup, import, container templates |
 | `local-lvm` | LVM-thin, VG `pve`, pool `data` | Supports VM and container disks; no VM 200 volumes |
-| `nvme-vm` | LVM-thin, VG and pool `nvme-vm` | VM 200 root disk and cloud-init media |
+| `nvme-vm` | LVM-thin, VG and pool `nvme-vm` | VM 200 root disk/cloud-init media and CT 201 20 GiB rootfs |
 
 The system root volume is approximately 68.1 GiB, swap 7.6 GiB, and `pve/data` 137.4 GiB. The NVMe thin pool is approximately 467.3 GiB. VM 200 has a 40 GiB virtual root disk and 4 MiB cloud-init disk. The verified source image remains on `local` with two hard-linked filenames.
 
@@ -59,3 +60,7 @@ VM 200 is now in local Terraform state after an import-only apply. A fresh plan 
 ## Kubernetes layer — 2026-10-25
 
 VM 200 now hosts a single K3s v1.36.5+k3s1 server with embedded SQLite. Containerd, Flannel VXLAN, CoreDNS, Traefik, ServiceLB, and local-path storage remain lightweight defaults. Pod/service ranges are 10.42.0.0/16 and 10.43.0.0/16. Guest-only firewall rules restrict control-plane access to internal traffic and SSH-based administration. See [K3s operations](07-k3s.md) for the verified configuration and single-node limitations.
+
+## Local inference layer — 2026-10-28
+
+A separate unprivileged Debian 13 LXC, lab-ai-01 (CT 201), hosts CPU-only Ollama and qwen2.5-coder:1.5b. It uses 2 vCPU, a two-core quota with lower CPU weight, 2048 MiB RAM, no swap, and a 20 GiB nvme-vm rootfs. Guest memory limits total 5120 MiB on a 7819 MiB host; monitored inference retained over 2.2 GiB host available memory. The API binds only loopback and is reached through a strict-host-key Mac SSH tunnel. No operator private credentials, host mounts, execution agent, or GPU passthrough were provided. Terraform manages CT 201 after SSH bootstrap and import; VM 200 remained unchanged. See [deployment and benchmark evidence](09-local-llm.md).

@@ -1,0 +1,96 @@
+{
+  "baseline": {
+    "available_mib": 3355.9,
+    "swap_used_mib": 0.0,
+    "psi_some_avg10": 0.0,
+    "psi_full_avg10": 0.0,
+    "pswpin": 0,
+    "pswpout": 0,
+    "ct_memory_mib": 140.0,
+    "ct_oom": 0,
+    "ct_oom_kill": 0
+  },
+  "samples": 41,
+  "interval_seconds": 0.5,
+  "min_available_mib": 2265.8,
+  "max_swap_used_mib": 0.0,
+  "max_psi_some_avg10": 0.0,
+  "max_psi_full_avg10": 0.0,
+  "swap_pages_in_delta": 0,
+  "swap_pages_out_delta": 0,
+  "max_ct_memory_mib": 1801.8,
+  "ct_oom_delta": 0,
+  "ct_oom_kill_delta": 0,
+  "aborted": false,
+  "benchmark": {
+    "started_at_utc": "2026-10-27T23:04:29.133867+00:00",
+    "finished_at_utc": "2026-10-27T23:04:48.465063+00:00",
+    "model": "qwen2.5-coder:1.5b",
+    "prompt": "Write a short Python function that returns the sum of even integers in a list. Include one example. Output only code.",
+    "options": {
+      "num_ctx": 1024,
+      "num_predict": 128,
+      "num_thread": 2,
+      "num_gpu": 0,
+      "seed": 42,
+      "temperature": 0
+    },
+    "results": [
+      {
+        "run": 1,
+        "condition": "model-cold",
+        "wall_seconds": 9.381,
+        "first_token_seconds": 4.511,
+        "load_seconds": 3.328,
+        "prompt_tokens": 53,
+        "generated_tokens": 62,
+        "generation_seconds": 4.867,
+        "tokens_per_second": 12.74,
+        "response": "```python\ndef sum_even_numbers(numbers):\n    return sum(num for num in numbers if num % 2 == 0)\n\n# Example usage\nprint(sum_even_numbers([1, 2, 3, 4, 5, 6]))  # Output: 12\n```"
+      },
+      {
+        "run": 2,
+        "condition": "warm",
+        "wall_seconds": 4.956,
+        "first_token_seconds": 0.086,
+        "load_seconds": 0.001,
+        "prompt_tokens": 53,
+        "generated_tokens": 62,
+        "generation_seconds": 4.867,
+        "tokens_per_second": 12.74,
+        "response": "```python\ndef sum_even_numbers(numbers):\n    return sum(num for num in numbers if num % 2 == 0)\n\n# Example usage\nprint(sum_even_numbers([1, 2, 3, 4, 5, 6]))  # Output: 12\n```"
+      },
+      {
+        "run": 3,
+        "condition": "warm",
+        "wall_seconds": 4.994,
+        "first_token_seconds": 0.086,
+        "load_seconds": 0.001,
+        "prompt_tokens": 53,
+        "generated_tokens": 62,
+        "generation_seconds": 4.905,
+        "tokens_per_second": 12.64,
+        "response": "```python\ndef sum_even_numbers(numbers):\n    return sum(num for num in numbers if num % 2 == 0)\n\n# Example usage\nprint(sum_even_numbers([1, 2, 3, 4, 5, 6]))  # Output: 12\n```"
+      }
+    ]
+  },
+  "mac_tunnel_check": {
+    "path": "Mac loopback SSH tunnel",
+    "wall_seconds": 0.749,
+    "generated_tokens": 5,
+    "tokens_per_second": 15.92,
+    "response": "local inference ready."
+  },
+  "deployment": {
+    "validated_date_europe_malta": "2026-10-28",
+    "container_id": 201,
+    "hostname": "lab-ai-01",
+    "ollama_version": "0.40.12",
+    "model_digest": "sha256:d7372fd828518a4d38b1eb196c673c31a85f2ed302b3d1e406c4c2d1b64a0668",
+    "model_size_bytes": 986062089,
+    "processor": "100% CPU",
+    "size_vram_bytes": 0,
+    "container_memory_mib": 2048,
+    "vcpus": 2
+  }
+}

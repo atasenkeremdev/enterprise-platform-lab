@@ -9,9 +9,10 @@ Terraform 1.17.0 and bpg/proxmox 0.118.0 were used for successful local validati
 ```text
 terraform/environments/lab/
 ├── .terraform.lock.hcl  # Provider version and checksums
+├── ai.tf               # Unprivileged AI LXC CT 201
 ├── data.tf             # Node discovery data source
 ├── images.tf           # Source image provenance; no managed image
-├── imports.tf          # Declarative adoption of pve/200
+├── imports.tf          # Declarative adoption of pve/200 and pve/201
 ├── outputs.tf          # Node-name output
 ├── providers.tf        # Private API endpoint; current TLS exception
 ├── variables.tf        # Operator public-key path
@@ -25,7 +26,7 @@ The provider endpoint is `https://192.168.10.10:8006/`, accessible only through 
 
 **Completed on 2026-10-25:** VM 200 was adopted into local Terraform state without changing the running VM. Formatting and validation pass. The reviewed plan reported `1 to import, 0 to add, 0 to change, 0 to destroy`; applying that saved plan reported `1 imported, 0 added, 0 changed, 0 destroyed`. A fresh plan with `-detailed-exitcode` returned exit code 0 and `No changes`.
 
-State now contains `data.proxmox_virtual_environment_nodes.available` and `proxmox_virtual_environment_vm.lab_k3s_01` (ID 200).
+State now contains `data.proxmox_virtual_environment_nodes.available`, `proxmox_virtual_environment_vm.lab_k3s_01` (ID 200), and `proxmox_virtual_environment_container.lab_ai_01` (ID 201; adopted on 2026-10-28).
 
 `imports.tf` declares:
 
@@ -114,3 +115,9 @@ The prerequisite at that time was to make the existing credential available thro
 ## Post-K3s verification — 2026-10-25
 
 After guest-only K3s installation and a controlled guest reboot, formatting and validation passed, and a fresh credentialed `terraform plan -input=false -no-color -detailed-exitcode` returned exit code 0 with no changes. No VM resource or Proxmox host configuration changes were needed.
+
+## AI LXC adoption — 2026-10-28
+
+[ai.tf](../terraform/environments/lab/ai.tf) adds unprivileged CT 201 (lab-ai-01) with 2 vCPU, 2048 MiB RAM, no swap, and a 20 GiB nvme-vm rootfs. The existing token's bridge SDN.Use denial prevented direct API creation before any resource was created. The reviewed configuration was bootstrapped through already authorized SSH, then declaratively imported as pve/201 without changing VM 200 or broadening API roles. The template is staged with pveam outside Terraform ownership.
+
+Proxmox cannot read back the original template or bootstrap user keys. Only those two creation-time fields are ignored to avoid an unnecessary replacement; prevent_destroy remains enabled. A state-only adoption update filled vm_id/timeout_start metadata and sent no configuration/reboot request. The final combined plan returns exit code 0 and no changes. Full deployment, admission measurements, and validation are in [local LLM operations](09-local-llm.md).

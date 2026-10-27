@@ -10,7 +10,7 @@ A practical platform engineering lab built on a single Proxmox host. The project
 
 ## Current status
 
-Verified on **2026-10-25** using Proxmox, guest SSH, a Terraform import-only apply, a zero-change plan, and repository checks.
+Baseline recorded on **2026-10-25**. Shared-host capacity, K3s health, the local LLM deployment, and a zero-change Terraform plan were verified on **2026-10-28**.
 
 | Component | Status |
 | --- | --- |
@@ -20,8 +20,9 @@ Verified on **2026-10-25** using Proxmox, guest SSH, a Terraform import-only app
 | Guest OS | Ubuntu 24.04.5 LTS |
 | Guest network | DHCP, observed `192.168.10.226/24` |
 | SSH | Public-key login verified; password authentication disabled |
-| Terraform | VM 200 imported; zero-change plan verified |
+| Terraform | VM 200 and CT 201 adopted; zero-change plan verified |
 | K3s | v1.36.5+k3s1; node Ready; DNS, ingress, and reboot recovery verified |
+| Local LLM | CT 201 lab-ai-01; CPU-only Ollama 0.40.12 and qwen2.5-coder:1.5b; SSH-only API |
 | Headlamp Desktop | Mac v0.46.0; read-only context and SSH API tunnel verified |
 | GitOps / observability stack | Planned; controllers and heavyweight monitoring not installed |
 
@@ -35,8 +36,12 @@ flowchart LR
     LAN[Private LAN and DHCP router] --- Bridge[vmbr0 bridge]
     Bridge --- VM[Ubuntu lab-k3s-01 / VM 200]
     PVE --> VM
+    Bridge --- AI[Debian lab-ai-01 / CT 201]
+    PVE --> AI
+    NVMe --> AI
+    Operator -->|SSH loopback tunnel| AI
     NVMe[NVMe LVM-thin / nvme-vm] --> VM
-    TF[Terraform / VM 200 adopted] -.-> PVE
+    TF[Terraform / VM 200 and CT 201 adopted] -.-> PVE
 ```
 
 The host uses an Intel Core i5-6500T, approximately 8 GiB RAM, a SATA system SSD, and a separate NVMe VM datastore. The current toolchain is Terraform 1.17.0 with bpg/proxmox 0.118.0, Proxmox CLI, OpenSSH, and Ubuntu cloud-init. K3s uses SQLite, containerd, Flannel, CoreDNS, Traefik, and ServiceLB. GitOps remains planned.
@@ -64,7 +69,7 @@ ssh -o StrictHostKeyChecking=yes -o IdentitiesOnly=yes \
 
 The key path and SSH alias are operator-local prerequisites, not files distributed with this repository. Follow the [management access instructions](docs/02-proxmox-setup.md) and [guest verification procedures](docs/04-ubuntu-vm.md).
 
-**VM 200 was provisioned with Proxmox CLI and subsequently adopted by Terraform.** Local state now contains the node data source and VM resource. The import changed no infrastructure, and a fresh plan reports no changes. See the [adoption results](docs/03-terraform.md). State remains local and must be backed up securely; a fresh checkout does not include it.
+**VM 200 was provisioned with Proxmox CLI and subsequently adopted by Terraform.** Local state now contains the node data source, VM 200, and AI CT 201 resources. The import changed no infrastructure, and a fresh plan reports no changes. See the [adoption results](docs/03-terraform.md). State remains local and must be backed up securely; a fresh checkout does not include it.
 
 ## Documentation
 
@@ -76,6 +81,7 @@ The key path and SSH alias are operator-local prerequisites, not files distribut
 6. [Roadmap and acceptance criteria](docs/06-roadmap.md)
 7. [K3s installation, validation, and operations](docs/07-k3s.md)
 8. [Headlamp Desktop access](docs/08-headlamp.md)
+9. [Local LLM deployment, benchmarks, and SSH access](docs/09-local-llm.md)
 
 ## Operational boundaries
 
@@ -88,3 +94,7 @@ The reviewed import-only plan adopted VM 200 with zero additions, changes, or de
 ## K3s installed — 2026-10-25
 
 The existing VM now runs pinned K3s `v1.36.5+k3s1` with embedded SQLite and the default lightweight packaged components. Node Ready, API health, internal/external DNS, service traffic, Traefik ingress, and recovery after a guest reboot were verified. The guest firewall blocks direct LAN access to control-plane ports; use kubectl as ubuntu over SSH. No Proxmox host changes or VM recreation occurred. Terraform still reports no changes. See [operations and limitations](docs/07-k3s.md); secret material remains outside Git.
+
+## Local LLM — 2026-10-28
+
+lab-ai-01 is an isolated unprivileged Debian 13 LXC with 2 vCPU, 2 GiB RAM, zero swap, and a 20 GiB disk on nvme-vm. Ollama serves qwen2.5-coder:1.5b only on localhost, accessed from the Mac over an SSH tunnel. The guarded CPU benchmark measured about 12.7 generated tokens/s and 5.0 s warm response latency; host available RAM remained above 2.2 GiB during that benchmark, with no swap, OOM, or measured PSI average. Existing K3s workloads remained healthy. No agent or model execution access was installed. See [measured results and limitations](docs/09-local-llm.md).

@@ -60,3 +60,9 @@ K3s secrets encryption is enabled. The canonical admin kubeconfig is root:ubuntu
 ## Desktop dashboard access — 2026-10-25
 
 Headlamp Desktop on the Mac uses a dedicated read-only service account and one-hour TokenRequest credentials refreshed over existing SSH. Local kubeconfigs are mode 0600 and retain no administrator client key or permanent bearer token. The API is reached through a loopback-only SSH forward with CA and SAN verification. Node/namespace/system-pod access succeeds, while Secrets, deployment writes, and pod exec are denied. See [Headlamp operations](08-headlamp.md) for renewal, revocation, local app storage, and troubleshooting.
+
+## Local inference boundary — 2026-10-28
+
+The AI service is isolated in unprivileged CT 201 with hard memory/CPU limits, no swap, no host bind mounts, and no GPU passthrough. Debian systemd requires nesting for standard mounts; this shares the host kernel and does not provide VM-level isolation. Ollama runs as a non-login unprivileged account with no capabilities, private devices, protected homes, a read-only system, and SSH/Git/Terraform executables hidden in its service namespace. No execution agent or operator private credentials were installed in the model environment.
+
+The API listens only on 127.0.0.1:11434. Mac access uses a loopback SSH forward with a guest host key pinned through existing trusted Proxmox access. The API has no independent authentication, so trusted local Mac processes can use an active tunnel. Cloud features are disabled; generated text was never executed. Direct LAN access failed validation. See [access, resource guard, and limitations](09-local-llm.md).
