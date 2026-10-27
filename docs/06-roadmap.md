@@ -16,7 +16,8 @@ The roadmap separates verified outcomes from future work. The documentation mile
 | Desktop cluster access | Completed | Headlamp 0.46.0; read-only identity; TLS-verified SSH tunnel; backend discovery validated |
 | Local CPU inference | Completed | CT 201; pinned Ollama/model; SSH-only API; benchmarks and host/K3s health validated |
 | Model-driven execution agent | Not authorized | No SSH/Git/Terraform tools or agent installed |
-| GitOps delivery | Planned | Choose Flux or Argo CD; repository reconciliation and rollback demonstrated |
+| GitOps delivery | Initial delivery completed | Minimal Flux and BankOps image/digest reconciliation verified; rollback drill remains planned |
+| BankOps.dev landing page | Completed on private LAN | Next.js container, GHCR publishing, browser checks, Service/Ingress, and Flux Ready |
 | Observability | Planned | Metrics, dashboards, actionable alerts, and log retention within capacity |
 | Security baseline | Planned | Trusted API TLS, scoped access, patching, secret management, exposure review |
 | Recovery | Planned | Protected state backups and a demonstrated guest/platform restore |
@@ -32,11 +33,11 @@ Installed the observed stable-channel release v1.36.5+k3s1 with SQLite, containe
 
 ## GitOps and observability
 
-Select one GitOps controller and define repository layout, environment promotion, and encrypted secret delivery. Start with one application and demonstrate reconciliation and rollback. Add resource-conscious metrics and logs, with explicit retention and alert ownership. Tool choices and successful deployments remain unverified until implemented.
+Flux source/kustomize controllers now reconcile the BankOps landing page from Git. GitHub Actions tests and publishes its container, then commits the immutable deployment digest. Reconciliation is verified; a rollback drill, environment promotion, and secret delivery for future stateful capabilities remain planned. Add resource-conscious metrics and logs, with explicit retention and alert ownership. Observability tool choices and deployments remain unverified until implemented.
 
 ## GitHub publication
 
-Published to [atasenkeremdev/enterprise-platform-lab](https://github.com/atasenkeremdev/enterprise-platform-lab) with **private** visibility. GitHub CLI authentication was confirmed, the repository was created, and `main` was pushed with upstream tracking to `origin/main`. Access requires repository permission.
+Initially published to [atasenkeremdev/enterprise-platform-lab](https://github.com/atasenkeremdev/enterprise-platform-lab) with private visibility. On 2026-10-28 GitHub reported **PUBLIC** visibility; this deployment preserved that state. GitHub CLI authentication was confirmed, the repository was created, and `main` was pushed with upstream tracking to `origin/main`. Current source is publicly readable.
 
 For subsequent documentation updates, review staged content for secrets before committing and pushing. Verify publication with:
 
@@ -46,7 +47,7 @@ git status --short
 git ls-remote origin refs/heads/main
 ```
 
-Do not change repository visibility to public without explicit approval.
+Do not change the currently observed repository visibility without explicit approval.
 
 ## Adoption completed — 2026-10-25
 
@@ -55,3 +56,7 @@ Adoption completed using credentials loaded from the ignored local `.env`, witho
 ## Local inference — 2026-10-28
 
 The [local LLM milestone](09-local-llm.md) is validated with one small Qwen model, a 1024-token context, and serial CPU inference. Larger models, additional users, or execution tools require a new capacity and security design. This milestone grants no model-driven SSH, Git, Terraform, or repository execution authority.
+
+## BankOps.dev next steps
+
+The [first website](10-bankops-web.md) is a private-LAN product introduction, not a compliance automation backend. Public DNS/HTTPS, the real demo/contact workflow, tenant identity, evidence storage/provenance, and production delivery safeguards remain separate work. Do not expose the lab management plane as part of a public launch.

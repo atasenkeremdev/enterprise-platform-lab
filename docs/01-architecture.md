@@ -64,3 +64,7 @@ VM 200 now hosts a single K3s v1.36.5+k3s1 server with embedded SQLite. Containe
 ## Local inference layer — 2026-10-28
 
 A separate unprivileged Debian 13 LXC, lab-ai-01 (CT 201), hosts CPU-only Ollama and qwen2.5-coder:1.5b. It uses 2 vCPU, a two-core quota with lower CPU weight, 2048 MiB RAM, no swap, and a 20 GiB nvme-vm rootfs. Guest memory limits total 5120 MiB on a 7819 MiB host; monitored inference retained over 2.2 GiB host available memory. The API binds only loopback and is reached through a strict-host-key Mac SSH tunnel. No operator private credentials, host mounts, execution agent, or GPU passthrough were provided. Terraform manages CT 201 after SSH bootstrap and import; VM 200 remained unchanged. See [deployment and benchmark evidence](09-local-llm.md).
+
+## BankOps.dev application layer — 2026-10-28
+
+A single lightweight Next.js pod in the bankops namespace serves the private-LAN landing page through the existing Traefik ingress and ClusterIP Service. GitHub Actions builds/tests the amd64 standalone image, publishes an immutable GHCR digest, and commits the deployment reference. Two Flux controllers reconcile the public repository over verified HTTPS; the application reconciler is restricted to its namespace. No database or business backend is present. The deployment added only Kubernetes resources, with no Proxmox guest reconfiguration. See [BankOps operations](10-bankops-web.md).

@@ -22,9 +22,11 @@ Baseline recorded on **2026-10-25**. Shared-host capacity, K3s health, the local
 | SSH | Public-key login verified; password authentication disabled |
 | Terraform | VM 200 and CT 201 adopted; zero-change plan verified |
 | K3s | v1.36.5+k3s1; node Ready; DNS, ingress, and reboot recovery verified |
+| BankOps.dev | Next.js landing page deployed through Flux; private URL http://lab-k3s-01.lan |
 | Local LLM | CT 201 lab-ai-01; CPU-only Ollama 0.40.12 and qwen2.5-coder:1.5b; SSH-only API |
 | Headlamp Desktop | Mac v0.46.0; read-only context and SSH API tunnel verified |
-| GitOps / observability stack | Planned; controllers and heavyweight monitoring not installed |
+| GitOps | Flux 2.10.0 source/kustomize controllers Ready; BankOps digest reconciliation verified |
+| Observability stack | Planned; heavyweight monitoring not installed |
 
 All addresses shown are **private LAN addresses**, not publicly reachable service endpoints. Access requires the lab LAN or an independently configured trusted access path. The DHCP address can change.
 
@@ -44,7 +46,7 @@ flowchart LR
     TF[Terraform / VM 200 and CT 201 adopted] -.-> PVE
 ```
 
-The host uses an Intel Core i5-6500T, approximately 8 GiB RAM, a SATA system SSD, and a separate NVMe VM datastore. The current toolchain is Terraform 1.17.0 with bpg/proxmox 0.118.0, Proxmox CLI, OpenSSH, and Ubuntu cloud-init. K3s uses SQLite, containerd, Flannel, CoreDNS, Traefik, and ServiceLB. GitOps remains planned.
+The host uses an Intel Core i5-6500T, approximately 8 GiB RAM, a SATA system SSD, and a separate NVMe VM datastore. The current toolchain is Terraform 1.17.0 with bpg/proxmox 0.118.0, Proxmox CLI, OpenSSH, and Ubuntu cloud-init. K3s uses SQLite, containerd, Flannel, CoreDNS, Traefik, and ServiceLB. Flux now reconciles the BankOps application from Git.
 
 ## Quick start
 
@@ -82,10 +84,11 @@ The key path and SSH alias are operator-local prerequisites, not files distribut
 7. [K3s installation, validation, and operations](docs/07-k3s.md)
 8. [Headlamp Desktop access](docs/08-headlamp.md)
 9. [Local LLM deployment, benchmarks, and SSH access](docs/09-local-llm.md)
+10. [BankOps.dev website and GitOps delivery](docs/10-bankops-web.md)
 
 ## Operational boundaries
 
-Never run `terraform destroy`, delete existing infrastructure, or change Proxmox host networking, storage configuration, or authentication without explicit authorization. Additional VMs and destructive operations require explicit approval. Keep state, plans, credentials, and private keys outside Git. Repository publication must remain private unless explicitly approved otherwise.
+Never run `terraform destroy`, delete existing infrastructure, or change Proxmox host networking, storage configuration, or authentication without explicit authorization. Additional VMs and destructive operations require explicit approval. Keep state, plans, credentials, and private keys outside Git. Preserve the repository's observed visibility; changing visibility requires explicit authorization. GitHub reports this repository as public as of 2026-10-28; never publish credentials or private runtime data.
 
 ## Adoption completed — 2026-10-25
 
@@ -98,3 +101,7 @@ The existing VM now runs pinned K3s `v1.36.5+k3s1` with embedded SQLite and the 
 ## Local LLM — 2026-10-28
 
 lab-ai-01 is an isolated unprivileged Debian 13 LXC with 2 vCPU, 2 GiB RAM, zero swap, and a 20 GiB disk on nvme-vm. Ollama serves qwen2.5-coder:1.5b only on localhost, accessed from the Mac over an SSH tunnel. The guarded CPU benchmark measured about 12.7 generated tokens/s and 5.0 s warm response latency; host available RAM remained above 2.2 GiB during that benchmark, with no swap, OOM, or measured PSI average. Existing K3s workloads remained healthy. No agent or model execution access was installed. See [measured results and limitations](docs/09-local-llm.md).
+
+## BankOps.dev — 2026-10-28
+
+The first BankOps.dev product-introduction site is live at **http://lab-k3s-01.lan** on the private LAN. A tested, non-root Next.js container is published to GHCR and deployed by Flux from Git, using a dedicated bankops namespace and scoped application reconciliation. The page clearly marks evidence automation as a proposed product direction; no business backend or database is implemented. See [build, deployment, validation, and public-launch remaining work](docs/10-bankops-web.md).
