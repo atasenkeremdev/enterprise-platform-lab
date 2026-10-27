@@ -1,0 +1,29 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: flux-system
+  namespace: flux-system
+spec:
+  interval: 1m
+  url: https://github.com/atasenkeremdev/enterprise-platform-lab
+  ref:
+    branch: main
+  # Public repository: verified HTTPS reads need no persistent Git credential.
+  ignore: |
+    /*
+    !/clusters/
+    !/deploy/
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: flux-system
+  namespace: flux-system
+spec:
+  interval: 1m
+  timeout: 2m
+  path: ./clusters/lab
+  prune: false
+  sourceRef:
+    kind: GitRepository
+    name: flux-system

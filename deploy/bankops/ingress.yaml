@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bankops-web
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: lab-k3s-01.lan
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bankops-web
+                port:
+                  name: http
