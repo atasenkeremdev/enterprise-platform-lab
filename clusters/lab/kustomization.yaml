@@ -4,3 +4,5 @@ resources:
   - flux-system
   - bankops-access.yaml
   - bankops-sync.yaml
+  - cloudflare-tunnel-access.yaml
+  - cloudflare-tunnel-sync.yaml

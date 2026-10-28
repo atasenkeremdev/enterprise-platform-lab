@@ -1,0 +1,29 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-www
+spec:
+  redirectRegex:
+    regex: ^https?://www\.bankops\.dev/(.*)
+    replacement: https://bankops.dev/${1}
+    permanent: true
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bankops-web-www
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: bankops-redirect-www@kubernetescrd
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: www.bankops.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bankops-web
+                port:
+                  name: http

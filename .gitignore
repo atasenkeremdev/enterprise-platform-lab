@@ -38,3 +38,7 @@ credentials.tfrc.json
 
 # macOS
 .DS_Store
+
+# Cloudflare connector credentials (never track token files)
+*.token
+.cloudflared/
