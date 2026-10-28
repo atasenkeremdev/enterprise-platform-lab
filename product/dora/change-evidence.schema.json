@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:bankops:change-evidence:0.1",
+  "title": "BankOps proposed change evidence draft",
+  "description": "Draft contract only. Workflow, provenance and independence require domain validation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "revision", "synthetic", "classification", "status", "createdAt", "change", "people", "evidence"],
+  "properties": {
+    "schemaVersion": { "const": "0.1" },
+    "id": { "type": "string", "minLength": 1, "maxLength": 100 },
+    "revision": { "type": "integer", "minimum": 1 },
+    "synthetic": { "type": "boolean" },
+    "classification": { "enum": ["synthetic", "internal"] },
+    "status": { "enum": ["draft", "in_review", "approved", "rejected", "implemented", "verified"] },
+    "createdAt": { "$ref": "#/$defs/timestamp" },
+    "change": {
+      "type": "object", "additionalProperties": false,
+      "required": ["title", "type", "system", "environment", "purpose", "scope", "plannedStart", "plannedEnd", "expectedOutcome", "riskAssessment", "securityImpact", "fallbackPlan", "fallbackOwner"],
+      "properties": {
+        "title": { "$ref": "#/$defs/text" }, "type": { "const": "normal" },
+        "system": { "$ref": "#/$defs/text" }, "environment": { "enum": ["lab", "development", "staging", "production"] },
+        "purpose": { "$ref": "#/$defs/text" }, "scope": { "$ref": "#/$defs/text" },
+        "plannedStart": { "$ref": "#/$defs/timestamp" }, "plannedEnd": { "$ref": "#/$defs/timestamp" },
+        "expectedOutcome": { "$ref": "#/$defs/text" }, "riskAssessment": { "$ref": "#/$defs/text" },
+        "securityImpact": { "$ref": "#/$defs/text" }, "fallbackPlan": { "$ref": "#/$defs/text" },
+        "fallbackOwner": { "$ref": "#/$defs/actor" }
+      }
+    },
+    "people": {
+      "type": "object", "additionalProperties": false, "required": ["owner", "requester", "implementer"],
+      "properties": { "owner": { "$ref": "#/$defs/actor" }, "requester": { "$ref": "#/$defs/actor" }, "implementer": { "$ref": "#/$defs/actor" } }
+    },
+    "evidence": {
+      "type": "array", "maxItems": 100,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "kind", "sourceUri", "sourceAt", "collectedAt", "assertionType", "summary"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1, "maxLength": 100 },
+          "kind": { "enum": ["change_record", "test_result", "security_check", "risk_assessment", "deployment", "verification"] },
+          "sourceUri": { "type": "string", "format": "uri", "maxLength": 2048 },
+          "sourceAt": { "$ref": "#/$defs/timestamp" }, "collectedAt": { "$ref": "#/$defs/timestamp" },
+          "assertionType": { "enum": ["synthetic", "collected_observation", "human_assertion"] },
+          "summary": { "$ref": "#/$defs/text" }, "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        }
+      }
+    },
+    "review": {
+      "type": "object", "additionalProperties": false, "required": ["reviewer", "packageRevision", "decision", "rationale", "decidedAt"],
+      "properties": {
+        "reviewer": { "$ref": "#/$defs/actor" }, "packageRevision": { "type": "integer", "minimum": 1 },
+        "decision": { "enum": ["approved", "rejected", "changes_requested"] },
+        "rationale": { "$ref": "#/$defs/text" }, "decidedAt": { "$ref": "#/$defs/timestamp" }
+      }
+    },
+    "implementation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sourceCommit", "imageDigest", "deploymentRevision", "implementedAt"],
+      "properties": {
+        "sourceCommit": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "imageDigest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "deploymentRevision": { "$ref": "#/$defs/text" },
+        "implementedAt": { "$ref": "#/$defs/timestamp" }, "verifiedAt": { "$ref": "#/$defs/timestamp" },
+        "verificationResult": { "enum": ["passed", "failed", "inconclusive"] }
+      }
+    }
+  },
+  "$defs": {
+    "text": { "type": "string", "minLength": 1, "maxLength": 4000 },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "actor": { "type": "string", "minLength": 1, "maxLength": 100 }
+  }
+}

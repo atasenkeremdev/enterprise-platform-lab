@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "0.1",
+  "id": "SYNTHETIC-CHANGE-001",
+  "revision": 1,
+  "synthetic": true,
+  "classification": "synthetic",
+  "status": "draft",
+  "createdAt": "2026-10-28T09:00:00Z",
+  "change": {
+    "title": "Synthetic application image update — not an executed change",
+    "type": "normal",
+    "system": "example-payments-ui",
+    "environment": "lab",
+    "purpose": "Illustrate a normal-change evidence package without customer data.",
+    "scope": "One example application image; no host, network, database or credential changes.",
+    "plannedStart": "2026-10-29T10:00:00Z",
+    "plannedEnd": "2026-10-29T10:30:00Z",
+    "expectedOutcome": "The example application remains healthy after a reviewed image update.",
+    "riskAssessment": "Synthetic assessment: availability could be affected by an image startup failure.",
+    "securityImpact": "Not assessed. A security review is required before approval.",
+    "fallbackPlan": "Proposed: revert the desired image digest in Git and verify reconciliation; not exercised.",
+    "fallbackOwner": "synthetic-platform-owner"
+  },
+  "people": {
+    "owner": "synthetic-platform-owner",
+    "requester": "synthetic-engineer",
+    "implementer": "synthetic-engineer"
+  },
+  "evidence": [
+    {
+      "id": "synthetic-source-001",
+      "kind": "change_record",
+      "sourceUri": "urn:bankops:synthetic:change-record:001",
+      "sourceAt": "2026-10-28T08:55:00Z",
+      "collectedAt": "2026-10-28T09:00:00Z",
+      "assertionType": "synthetic",
+      "summary": "Illustrative change description only; no tests, independent approval or deployment evidence exist."
+    }
+  ]
+}

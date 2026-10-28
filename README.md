@@ -134,6 +134,7 @@ The key path and SSH alias are operator-local prerequisites, not files distribut
 4. [Ubuntu VM configuration and verification](docs/04-ubuntu-vm.md)
 5. [Security posture and improvements](docs/05-security.md)
 6. [Roadmap and acceptance criteria](docs/06-roadmap.md)
+7. [DORA-focused change evidence MVP — proposed scope and data contract](docs/12-dora-change-evidence.md)
 7. [K3s installation, validation, and operations](docs/07-k3s.md)
 8. [Headlamp Desktop access](docs/08-headlamp.md)
 9. [Local LLM deployment, benchmarks, and SSH access](docs/09-local-llm.md)

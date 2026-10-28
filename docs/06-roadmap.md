@@ -60,8 +60,12 @@ The [local LLM milestone](09-local-llm.md) is validated with one small Qwen mode
 
 ## BankOps.dev next steps
 
-The [first website](10-bankops-web.md) is a private-LAN product introduction, not a compliance automation backend. Public DNS/HTTPS, the real demo/contact workflow, tenant identity, evidence storage/provenance, and production delivery safeguards remain separate work. Do not expose the lab management plane as part of a public launch.
+The [first website](10-bankops-web.md) is a publicly reachable HTTPS product introduction, not a compliance automation backend. Public DNS/HTTPS is verified; the real demo/contact workflow, tenant identity, evidence storage/provenance, and production delivery safeguards remain separate work. Do not expose the lab management plane as part of a public launch.
 
 ## Cloudflare public HTTPS launch
 
 Public HTTPS, normal-DNS connectivity from the VM, application content/assets, WWW redirects, and desktop/mobile rendering are verified. The connector and Flux remain healthy. [Validation and follow-ups](11-cloudflare-tunnel.md) record the remaining apex HTTP-to-HTTPS edge rule and Mac resolver cleanup; no infrastructure changes are needed.
+
+## DORA-focused product slice — design started
+
+[Change evidence MVP](12-dora-change-evidence.md) defines a normal-change package, regulatory anchors, workflow decisions and the first synthetic data contract. This is design material, not an implemented compliance service. Next: a local-only, read-only package screen with visible provenance and gaps; no public evidence ingestion or new persistent workload yet.
