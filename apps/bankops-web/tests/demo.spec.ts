@@ -28,6 +28,13 @@ test("public demo keeps the synthetic contract and exposes gaps without approval
   await expect(page.getByText("urn:bankops:synthetic:change-record:001", { exact: true })).toBeVisible();
   await expect(page.getByText("Source timestamp", { exact: true })).toBeVisible();
   await expect(page.getByText("Collection timestamp", { exact: true })).toBeVisible();
+  const explanation = page.locator(".demo-checks details[open] .evidence-explainer");
+  for (const label of ["Why this matters", "Who should provide it", "Example evidence to provide", "What this demo actually has"]) await expect(explanation.getByText(label, { exact: true })).toBeVisible();
+  await expect(explanation.getByRole("link", { name: "RTS 17(1)(d) · Change details", exact: true })).toHaveAttribute("href", "https://eur-lex.europa.eu/eli/reg_del/2024/1774/oj");
+  await expect(page.getByText("A gap is missing package information, not a finding of a DORA breach.", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "What does each status mean?", exact: true })).toBeVisible();
+  await expect(page.getByText("When the source record was created.", { exact: true })).toBeVisible();
+  await expect(page.getByText("When it was added to this example package.", { exact: true })).toBeVisible();
   await expect(page.getByText("Not ready for approval.", { exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: /approve|upload|submit|connect/i })).toHaveCount(0);
   await expect(page.locator('input, textarea, form, a[href*="github.com"]')).toHaveCount(0);
@@ -84,7 +91,8 @@ for (const scenario of [
     await expect(page.getByRole("button", { name: "All checks", exact: true })).toHaveAttribute("aria-pressed", "true");
     await expect(page.locator(".demo-checks > li")).toHaveCount(6);
     await page.locator("summary").filter({ hasText: scenario.evidence }).click();
-    await expect(page.locator(".demo-checks details[open] .check-responsibility").filter({ hasText: "Infra" })).toBeVisible();
+    await expect(page.locator(".demo-checks details[open] .evidence-provider").filter({ hasText: "Infra" })).toBeVisible();
+    await expect(page.locator(".demo-checks details[open]").getByRole("link", { name: "RTS 17(1)(c) · Planning & responsibilities", exact: true })).toHaveAttribute("href", "https://eur-lex.europa.eu/eli/reg_del/2024/1774/oj");
     await page.locator("summary").filter({ hasText: "Risk and fallback plan" }).click();
     await expect(page.getByText(scenario.fallback, { exact: false })).toBeVisible();
     await page.getByRole("button", { name: "Gaps only", exact: true }).click();
