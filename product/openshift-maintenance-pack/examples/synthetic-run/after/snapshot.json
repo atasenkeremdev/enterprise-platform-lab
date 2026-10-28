@@ -1,0 +1,56 @@
+{
+  "captureCompletedAt": "2026-10-28T10:01:00Z",
+  "captureStartedAt": "2026-10-28T10:00:00Z",
+  "collectionStatus": "complete",
+  "errors": {},
+  "origin": "synthetic",
+  "phase": "after",
+  "resources": {
+    "clusterVersion": {
+      "availableUpdateVersions": [],
+      "clusterIdentitySha256": "35adc99d0998f15851c5089670392b2e54ef9a08dde0075f2eab0168067c9263",
+      "completedVersions": [
+        "4.18.0"
+      ],
+      "conditions": {
+        "Available": "True",
+        "Failing": "False",
+        "Progressing": "False"
+      },
+      "desiredVersion": "4.18.0",
+      "recommendationsPresentInResponse": false
+    },
+    "machinePools": [
+      {
+        "conditions": {},
+        "degradedMachineCount": 0,
+        "id": "worker",
+        "machineCount": 3,
+        "paused": false,
+        "readyMachineCount": 3,
+        "updatedMachineCount": 2
+      }
+    ],
+    "nodes": [
+      {
+        "conditions": {
+          "Ready": "False"
+        },
+        "id": "node-fictional-01",
+        "kubeletVersion": null
+      }
+    ],
+    "operators": [
+      {
+        "conditions": {
+          "Available": "True",
+          "Degraded": "True",
+          "Progressing": "False"
+        },
+        "id": "network"
+      }
+    ]
+  },
+  "schemaVersion": "1",
+  "toolVersion": "0.1.0-free-preview"
+}

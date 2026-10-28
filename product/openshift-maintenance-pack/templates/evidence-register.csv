@@ -1,0 +1,2 @@
+evidence_id,change_id,package_revision,origin,artifact_type,source_reference,source_time_utc,collection_started_utc,collection_completed_utc,owner_team,reviewer,sha256,classification,storage_reference,limitation
+EXAMPLE-ONLY,CHANGE-PLACEHOLDER,1,synthetic,snapshot,replace-with-source-reference,,,,Infra,,,synthetic,replace-with-private-storage-reference,Example row only; not collected evidence

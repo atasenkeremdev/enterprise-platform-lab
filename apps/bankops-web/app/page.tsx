@@ -1,3 +1,5 @@
+import "./resources/openshift-maintenance-pack/toolkit.css";
+
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d={diagonal ? "M6 18 18 6M6 6h12v12" : "M4 12h15m-6-6 6 6-6 6"} /></svg>;
 }
@@ -10,7 +12,7 @@ export default function Home() {
   return <>
     <a className="skip-link" href="#main">Skip to content</a>
     <div className="dark-shell" id="top">
-      <header className="site-header wrap"><Brand /><nav aria-label="Main navigation"><a href="#capabilities">Capabilities</a><a href="#approach">How it works</a><a href="#teams">Who it’s for</a></nav><a className="nav-contact" href="/demo">Explore demo <Arrow /></a></header>
+      <header className="site-header wrap"><Brand /><nav aria-label="Main navigation"><a href="#capabilities">Capabilities</a><a href="#approach">How it works</a><a href="#teams">Who it’s for</a><a href="/resources/openshift-maintenance-pack">Free toolkit</a></nav><a className="nav-contact" href="/demo">Explore demo <Arrow /></a></header>
       <main id="main">
         <section className="hero wrap" aria-labelledby="hero-title">
           <div className="hero-copy"><div className="eyebrow"><span className="small-line" /> Compliance evidence, engineered</div><h1 id="hero-title">Infrastructure changes.<br /><em>Clearer evidence.</em></h1><p className="hero-description">Compliance evidence automation for financial infrastructure.</p><p className="hero-body">Less time chasing change records. More context for control reviews. A product vision for connecting infrastructure evidence, ownership, and review.</p><div className="hero-actions"><a className="button button-mint" href="#contact">Request a demo <Arrow /></a><a className="text-link" href="/demo">Explore the demo <Arrow /></a></div><p className="preview-note"><span aria-hidden="true">↳</span> Early product preview. No live evidence collection yet.</p></div>
@@ -36,9 +38,10 @@ export default function Home() {
           ["Security", "Relate infrastructure artifacts to the questions behind technical controls."],
           ["Compliance", "Work with technical owners on evidence that is understandable and reviewable."],
         ].map(([title, text]) => <article key={title}><span className="team-cross" aria-hidden="true">+</span><h3>{title}</h3><p>{text}</p></article>)}</div></div></section>
+        <section className="free-toolkit-section wrap" aria-labelledby="free-toolkit-title"><div className="free-toolkit-panel"><div><p className="eyebrow">Free engineering resource / no sign-up</p><h2 id="free-toolkit-title">A practical maintenance toolkit.</h2><p>Explore a local OpenShift evidence collector, before/after comparison, editable checklists and report templates. Free preview; not yet validated on a live cluster.</p></div><a className="button button-mint" href="/resources/openshift-maintenance-pack">Get the free toolkit <Arrow /></a></div></section>
         <section className="contact-section wrap" id="contact" aria-labelledby="contact-title"><div className="contact-panel"><div><p className="eyebrow ink">Let’s build the right thing</p><h2 id="contact-title">Let’s talk about<br />your evidence workflow.</h2><p>Help shape a focused first workflow for infrastructure evidence. Start with the review questions your team finds hardest to answer.</p></div><div className="contact-actions"><a className="button button-dark" href="/demo">View product walkthrough <Arrow /></a><p className="contact-status">Personal demo requests opening soon.</p><span>Explore our synthetic walkthrough; no live systems are connected.<br />Please don’t share confidential or regulated data.</span></div></div></section>
       </main>
-      <footer className="site-footer wrap"><div><Brand /><p>Evidence for the infrastructure<br />that trust depends on.</p></div><div className="footer-links"><a href="#capabilities">Product direction</a><a href="#contact">Contact</a><a href="/demo">Product demo</a></div><div className="footer-bottom"><span>© 2026 BankOps.dev</span><span>Early-stage project. No compliance or certification guarantees.</span><a href="#top">Back to top ↑</a></div></footer>
+      <footer className="site-footer wrap"><div><Brand /><p>Evidence for the infrastructure<br />that trust depends on.</p></div><div className="footer-links"><a href="#capabilities">Product direction</a><a href="#contact">Contact</a><a href="/demo">Product demo</a><a href="/resources/openshift-maintenance-pack">Free toolkit</a></div><div className="footer-bottom"><span>© 2026 BankOps.dev</span><span>Early-stage project. No compliance or certification guarantees.</span><a href="#top">Back to top ↑</a></div></footer>
     </div>
   </>;
 }

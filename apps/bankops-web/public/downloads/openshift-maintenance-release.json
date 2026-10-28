@@ -1,0 +1,11 @@
+{
+  "version": "0.1.0-free-preview",
+  "filename": "openshift-maintenance-evidence-pack-0.1.0-free-preview.zip",
+  "url": "/downloads/openshift-maintenance-evidence-pack-0.1.0-free-preview.zip",
+  "sha256": "03fc38641d695c109dce5812a86bba62fdcebc4fcf23ae9f799033eee4f2c04d",
+  "bytes": 205714,
+  "guideUrl": "/downloads/openshift-maintenance-quickstart.pdf",
+  "checksumUrl": "/downloads/openshift-maintenance-evidence-pack-0.1.0-free-preview.zip.sha256",
+  "liveOpenShiftValidated": false,
+  "offlineTests": 12
+}

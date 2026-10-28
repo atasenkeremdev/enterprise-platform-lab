@@ -164,3 +164,7 @@ The first BankOps.dev product-introduction site is live at **http://lab-k3s-01.l
 ## Cloudflare Tunnel — 2026-10-28
 
 BankOps.dev is publicly available at **https://bankops.dev** through the Flux-managed bankops-production Cloudflare Tunnel. Normal-DNS HTTPS, actual HTML/assets, and WWW redirects preserving encoded paths/query strings are verified; desktop/mobile browser checks pass. K3s, Traefik, BankOps, and Flux remain healthy, with private LAN access preserved and no new management routes. Remaining follow-ups: enforce apex HTTP-to-HTTPS in Cloudflare and clear stale Mac system DNS state (Mac browser validation used observed edge addresses with TLS verification; VM normal DNS passed). See [verified launch results, security, and recovery](docs/11-cloudflare-tunnel.md).
+
+## Free engineering resource
+
+The [OpenShift Maintenance & Evidence Pack](https://bankops.dev/resources/openshift-maintenance-pack) is available as a free preview, with local collection/comparison tools, checklists, templates and a quickstart PDF. No sign-up is required. Validation is offline/synthetic; no live OpenShift compatibility or production-readiness claim is made. See [release and validation details](docs/13-free-openshift-toolkit.md).

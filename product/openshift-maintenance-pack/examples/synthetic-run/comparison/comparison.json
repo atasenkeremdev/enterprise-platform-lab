@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1",
+  "origin": "synthetic",
+  "beforeDesiredVersion": "4.18.0",
+  "afterDesiredVersion": "4.18.0",
+  "findings": [
+    {
+      "status": "OBSERVED",
+      "detail": "ClusterVersion Available=True"
+    },
+    {
+      "status": "OBSERVED",
+      "detail": "ClusterVersion Progressing=False"
+    },
+    {
+      "status": "OBSERVED",
+      "detail": "ClusterVersion Failing=False"
+    },
+    {
+      "status": "OBSERVED",
+      "detail": "network Available=True"
+    },
+    {
+      "status": "OBSERVED",
+      "detail": "network Progressing=False"
+    },
+    {
+      "status": "REVIEW",
+      "detail": "network Degraded=True"
+    },
+    {
+      "status": "REVIEW",
+      "detail": "worker pool counts/paused: [3, 3, 2, 0, False]"
+    },
+    {
+      "status": "REVIEW",
+      "detail": "node-fictional-01 Ready=False"
+    },
+    {
+      "status": "UNKNOWN",
+      "detail": "node-fictional-01 MemoryPressure=None"
+    },
+    {
+      "status": "UNKNOWN",
+      "detail": "node-fictional-01 DiskPressure=None"
+    },
+    {
+      "status": "UNKNOWN",
+      "detail": "node-fictional-01 PIDPressure=None"
+    },
+    {
+      "status": "REVIEW",
+      "detail": "Desired release unchanged; check intended maintenance scope and actual completion evidence"
+    }
+  ],
+  "upgradePathAssessment": "not_performed",
+  "approvalAssessment": "not_performed",
+  "complianceAssessment": "not_performed",
+  "applicationValidation": "not_collected"
+}

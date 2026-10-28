@@ -42,3 +42,7 @@ credentials.tfrc.json
 # Cloudflare connector credentials (never track token files)
 *.token
 .cloudflared/
+
+# Unpublished commercial product drafts and local release archives
+/product/private/
+/product/build/
