@@ -164,4 +164,13 @@ The existing section structure is preserved. The hero now uses “Infrastructure
 
 Local validation: TypeScript and optimized production build passed. Four Playwright checks passed across desktop/mobile, including a 320-pixel layout, keyboard skip link, reduced motion, contact anchor, expected content, no GitHub destination/text, health response, and no page JavaScript errors or failed static asset responses. Desktop/mobile screenshots were reviewed. The entry animation is disabled with prefers-reduced-motion; visible keyboard focus styles and semantic sections remain.
 
-Deployment uses the existing Actions → GHCR → immutable image digest commit → Flux pipeline. Final pipeline and public validation results are recorded after rollout below. No Proxmox or cluster configuration change is required.
+Deployment uses the existing Actions → GHCR → immutable image digest commit → Flux pipeline. Final pipeline and public validation results are recorded below. No Proxmox or cluster configuration change is required.
+
+### Verified refresh deployment
+
+- Source commit: cab4799d3989e0e62ae6e4082feb6391e89b31ef. [CI run 40612622067](https://github.com/atasenkeremdev/enterprise-platform-lab/actions/runs/40612622067) passed production image build, constrained non-root/read-only container startup, all four browser checks, healthcheck, publication, and digest commit.
+- Automated deployment commit: 3441e109c3daf45ce0d62a692576ae6672a9e556. Published/deployed image: ghcr.io/atasenkeremdev/bankops-web@sha256:428bfe1cc3125aa22cd49a02d13dc41a38c46106dd508d5df420c5dd012c2505. No manual cluster configuration edit was made.
+- Flux source and all three Kustomizations reconciled that deployment revision and were Ready. BankOps rolled out successfully, with its new pod 1/1 Ready and zero restarts. Node, Traefik, tunnel and existing running workloads remained healthy.
+- https://bankops.dev returned HTTP 200 with successful certificate validation using normal DNS from the VM. HTML contained the new headline and conceptual-preview label and no GitHub references; /healthz returned status ok.
+- Public desktop/mobile Chromium checks passed for new content, six browser-requested static assets, CTA anchor, conceptual disclosure, no visible GitHub text/destinations, no horizontal overflow, and no JavaScript errors. Mac system DNS still failed, so these browser checks explicitly mapped the previously DNS-observed Cloudflare edge addresses while preserving HTTPS hostname/SNI and certificate validation; VM normal-DNS verification is separate.
+- Remaining product follow-up: supply a verified business contact address to replace the honest “Demo requests opening soon” notice. Existing Mac DNS and apex HTTP-to-HTTPS operational follow-ups remain in the Cloudflare guide. No backend, new dependency, Proxmox change, or cluster configuration change was introduced.
