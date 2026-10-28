@@ -1,0 +1,195 @@
+{
+  "schemaVersion": "0.1",
+  "synthetic": true,
+  "scenarioId": "openshift",
+  "classification": "synthetic",
+  "notice": "Hand-authored, partial examples from a fictional OpenShift cluster. No oc command was executed. These are not observations of the K3s lab or proof of an upgrade.",
+  "plan": {
+    "requestedTargetMinor": "4.22",
+    "resolvedTargetPatch": null,
+    "recommendedUpgradePath": null,
+    "pathAssessment": "not_validated",
+    "approval": "not_recorded"
+  },
+  "sourceAt": "2026-10-28T08:50:00Z",
+  "collectedAt": "2026-10-28T09:00:00Z",
+  "baseline": {
+    "clusterVersion": {
+      "command": "oc get clusterversion version -o json",
+      "excerpt": true,
+      "output": {
+        "metadata": {
+          "name": "version"
+        },
+        "status": {
+          "desired": {
+            "version": "4.18.0"
+          },
+          "conditions": [
+            {
+              "type": "Available",
+              "status": "True"
+            },
+            {
+              "type": "Progressing",
+              "status": "False"
+            },
+            {
+              "type": "Failing",
+              "status": "False"
+            }
+          ]
+        }
+      }
+    },
+    "operators": {
+      "command": "oc get clusteroperators -o json",
+      "excerpt": true,
+      "output": {
+        "items": [
+          {
+            "metadata": {
+              "name": "authentication"
+            },
+            "status": {
+              "conditions": [
+                {
+                  "type": "Available",
+                  "status": "True"
+                },
+                {
+                  "type": "Progressing",
+                  "status": "False"
+                },
+                {
+                  "type": "Degraded",
+                  "status": "False"
+                }
+              ]
+            }
+          },
+          {
+            "metadata": {
+              "name": "kube-apiserver"
+            },
+            "status": {
+              "conditions": [
+                {
+                  "type": "Available",
+                  "status": "True"
+                },
+                {
+                  "type": "Progressing",
+                  "status": "False"
+                },
+                {
+                  "type": "Degraded",
+                  "status": "False"
+                }
+              ]
+            }
+          },
+          {
+            "metadata": {
+              "name": "network"
+            },
+            "status": {
+              "conditions": [
+                {
+                  "type": "Available",
+                  "status": "True"
+                },
+                {
+                  "type": "Progressing",
+                  "status": "False"
+                },
+                {
+                  "type": "Degraded",
+                  "status": "False"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "machinePools": {
+      "command": "oc get machineconfigpools -o json",
+      "excerpt": true,
+      "output": {
+        "items": [
+          {
+            "metadata": {
+              "name": "master"
+            },
+            "status": {
+              "machineCount": 3,
+              "updatedMachineCount": 3,
+              "readyMachineCount": 3,
+              "degradedMachineCount": 0
+            }
+          },
+          {
+            "metadata": {
+              "name": "worker"
+            },
+            "status": {
+              "machineCount": 3,
+              "updatedMachineCount": 3,
+              "readyMachineCount": 3,
+              "degradedMachineCount": 0
+            }
+          }
+        ]
+      }
+    },
+    "nodes": {
+      "command": "oc get nodes -o json",
+      "excerpt": true,
+      "output": {
+        "items": [
+          {
+            "metadata": {
+              "name": "example-control-plane-01"
+            },
+            "status": {
+              "conditions": [
+                {
+                  "type": "Ready",
+                  "status": "True"
+                }
+              ]
+            }
+          },
+          {
+            "metadata": {
+              "name": "example-worker-01"
+            },
+            "status": {
+              "conditions": [
+                {
+                  "type": "Ready",
+                  "status": "True"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "afterChange": {
+    "clusterVersion": null,
+    "operators": null,
+    "machinePools": null,
+    "nodes": null,
+    "applicationRegression": null
+  },
+  "missingEvidence": [
+    "Live cluster-specific recommended update path and exact target patch",
+    "Complete time-correlated platform inventory and compatibility assessment",
+    "Independent approval bound to this package revision",
+    "Implementation history for each approved stage",
+    "Post-change platform and Development-owned application validation"
+  ]
+}

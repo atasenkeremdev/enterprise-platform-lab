@@ -119,3 +119,49 @@ for (const scenario of [
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
   });
 }
+
+test("OpenShift technical excerpts support evidence without inventing an upgrade path or outcome", async ({ page }) => {
+  const errors: string[] = [];
+  const writes: string[] = [];
+  page.on("pageerror", e => errors.push(e.message));
+  page.on("request", r => { if (!["GET", "HEAD"].includes(r.method())) writes.push(r.url()); });
+  await page.goto("/demo");
+  await expect(page.locator(".technical-preview")).toHaveCount(0);
+  await page.getByLabel("Choose a synthetic scenario").selectOption("openshift");
+  const preview = page.locator(".technical-preview");
+  await expect(preview.getByRole("heading", { name: "OpenShift 4.18 → requested target 4.22", exact: true })).toBeVisible();
+  await expect(preview.getByText("Synthetic output, not executed commands.", { exact: true })).toBeVisible();
+  await expect(preview.getByText("Not validated", { exact: true })).toBeVisible();
+  await expect(preview.getByText("Not selected", { exact: true })).toBeVisible();
+  const download = await page.request.get("/demo/openshift-technical.synthetic.json");
+  expect(download.ok()).toBeTruthy();
+  const fixture = await download.json();
+  expect(fixture).toEqual(JSON.parse(readFileSync(resolve(process.cwd(), "../../product/dora/examples/openshift-technical.synthetic.json"), "utf8")));
+  expect(fixture.plan.requestedTargetMinor).toBe("4.22");
+  expect(fixture.plan.resolvedTargetPatch).toBeNull();
+  expect(fixture.plan.recommendedUpgradePath).toBeNull();
+  expect(fixture.plan.approval).toBe("not_recorded");
+  expect(Object.values(fixture.afterChange).every(value => value === null)).toBe(true);
+  for (const [button, key] of [["Cluster version", "clusterVersion"], ["Operators", "operators"], ["Machine pools", "machinePools"], ["Nodes", "nodes"]]) {
+    const control = preview.getByRole("button", { name: button, exact: true });
+    await control.focus();
+    await page.keyboard.press("Enter");
+    await expect(control).toHaveAttribute("aria-pressed", "true");
+    expect(JSON.parse((await preview.locator("pre code").textContent())!)).toEqual(fixture.baseline[key].output);
+    await expect(preview.locator(".technical-command code")).toHaveText(fixture.baseline[key].command);
+    expect(fixture.baseline[key].command).toMatch(/^oc get /);
+  }
+  await expect(preview.getByText("No post-change version captured", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Gaps only", exact: true }).click();
+  await preview.getByRole("link", { name: "Cluster & infrastructure readiness", exact: true }).click();
+  await expect(page).toHaveURL(/#evidence-check-baseline$/);
+  await expect(page.getByRole("button", { name: "All checks", exact: true })).toHaveAttribute("aria-pressed", "true");
+  await page.locator("#evidence-check-baseline summary").click();
+  await expect(page.locator("#evidence-check-baseline").getByText("these examples do not close this gap.", { exact: false })).toBeVisible();
+  await page.setViewportSize({ width: 320, height: 800 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
+  await page.getByLabel("Choose a synthetic scenario").selectOption("aks");
+  await expect(page.locator(".technical-preview")).toHaveCount(0);
+  expect(errors).toEqual([]);
+  expect(writes).toEqual([]);
+});

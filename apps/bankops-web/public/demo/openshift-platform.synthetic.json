@@ -11,11 +11,11 @@
     "type": "normal",
     "system": "example-onprem-ocp",
     "environment": "lab",
-    "purpose": "Assess a planned on-premises OpenShift platform upgrade owned by the Infra team.",
+    "purpose": "Assess a requested OpenShift 4.18 to 4.22 transition. This synthetic plan has no validated upgrade path or resolved target patch.",
     "scope": "Cluster version, Cluster Operators, machine config pools, nodes and underlying infrastructure readiness; application image changes are excluded.",
     "plannedStart": "2026-10-29T10:00:00Z",
     "plannedEnd": "2026-10-29T10:30:00Z",
-    "expectedOutcome": "The platform and dependent workloads remain healthy after an independently reviewed, supported change.",
+    "expectedOutcome": "Reach an approved exact target release through a supported, cluster-specific update plan while retaining platform and application health. No implementation is recorded.",
     "riskAssessment": "Synthetic risk: degraded Operators, blocked node drains, storage dependencies and workload compatibility may disrupt the cluster.",
     "securityImpact": "Not assessed. Review cluster-level access, security configuration and Operator impact.",
     "fallbackPlan": "Proposed: record a version-specific, support-led recovery plan and backup/restore evidence. An OpenShift cluster version rollback is not supported; do not treat a Git revert as a cluster downgrade. No recovery has been tested.",
@@ -34,7 +34,43 @@
       "sourceAt": "2026-10-28T08:55:00Z",
       "collectedAt": "2026-10-28T09:00:00Z",
       "assertionType": "synthetic",
-      "summary": "Illustrative platform change description only; no live inventory, compatibility test, independent approval or execution evidence exists."
+      "summary": "Illustrative change request from 4.18 to requested target minor 4.22; upgrade path, exact patch and approval are unresolved."
+    },
+    {
+      "id": "synthetic-ocp-clusterVersion",
+      "kind": "change_record",
+      "sourceUri": "urn:bankops:synthetic:ocp:technical:clusterVersion",
+      "sourceAt": "2026-10-28T08:50:00Z",
+      "collectedAt": "2026-10-28T09:00:00Z",
+      "assertionType": "synthetic",
+      "summary": "Hand-authored baseline clusterVersion excerpt from a fictional cluster, not collected or verified. Full illustrative output is in openshift-technical.synthetic.json."
+    },
+    {
+      "id": "synthetic-ocp-operators",
+      "kind": "change_record",
+      "sourceUri": "urn:bankops:synthetic:ocp:technical:operators",
+      "sourceAt": "2026-10-28T08:50:00Z",
+      "collectedAt": "2026-10-28T09:00:00Z",
+      "assertionType": "synthetic",
+      "summary": "Hand-authored baseline operators excerpt from a fictional cluster, not collected or verified. Full illustrative output is in openshift-technical.synthetic.json."
+    },
+    {
+      "id": "synthetic-ocp-machinePools",
+      "kind": "change_record",
+      "sourceUri": "urn:bankops:synthetic:ocp:technical:machinePools",
+      "sourceAt": "2026-10-28T08:50:00Z",
+      "collectedAt": "2026-10-28T09:00:00Z",
+      "assertionType": "synthetic",
+      "summary": "Hand-authored baseline machinePools excerpt from a fictional cluster, not collected or verified. Full illustrative output is in openshift-technical.synthetic.json."
+    },
+    {
+      "id": "synthetic-ocp-nodes",
+      "kind": "change_record",
+      "sourceUri": "urn:bankops:synthetic:ocp:technical:nodes",
+      "sourceAt": "2026-10-28T08:50:00Z",
+      "collectedAt": "2026-10-28T09:00:00Z",
+      "assertionType": "synthetic",
+      "summary": "Hand-authored baseline nodes excerpt from a fictional cluster, not collected or verified. Full illustrative output is in openshift-technical.synthetic.json."
     }
   ]
 }
