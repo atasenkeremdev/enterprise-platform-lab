@@ -68,4 +68,4 @@ Public HTTPS, normal-DNS connectivity from the VM, application content/assets, W
 
 ## DORA-focused product slice — design started
 
-[Change evidence MVP](12-dora-change-evidence.md) defines a normal-change package, regulatory anchors, workflow decisions and the first synthetic data contract. This is design material, not an implemented compliance service. Next: a local-only, read-only package screen with visible provenance and gaps; no public evidence ingestion or new persistent workload yet.
+[Change evidence MVP](12-dora-change-evidence.md) defines a normal-change package, regulatory anchors, workflow decisions and the first synthetic data contract. A synthetic, read-only /demo website walkthrough now illustrates provenance and gaps; it is not an implemented compliance service. No public evidence ingestion, approval workflow or new persistent workload is added.

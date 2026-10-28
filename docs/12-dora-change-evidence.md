@@ -2,7 +2,7 @@
 
 [Project overview](../README.md) · [Product roadmap](06-roadmap.md)
 
-Status: product design and data contract, 2026-10-28. No collection service, authentication, evidence storage, or DORA compliance determination is implemented. The public BankOps site remains a product introduction.
+Status: product design, data contract and synthetic UI prototype, 2026-10-28. No collection service, authentication, evidence storage, or DORA compliance determination is implemented. The public BankOps site introduces the product and links to a synthetic, read-only /demo walkthrough.
 
 ## First workflow
 
@@ -55,7 +55,7 @@ Drafts allow missing review/implementation fields. The schema checks structure; 
 ## Implementation sequence
 
 1. **Now:** agree the narrow workflow and validate the synthetic contract. No runtime resource increase.
-2. **Next:** build a local-only, read-only package screen using synthetic fixtures; include source provenance and visible gaps. Keep it out of the public landing-page route until its access/exposure model is chosen.
+2. **Prototype:** a read-only package screen uses only the synthetic fixture, with source provenance and visible gaps. The operator requested a website demo, so /demo is public and explicitly synthetic. Real evidence screens and data remain outside this public exposure decision.
 3. **Then:** implement package validation/export and a read-only collector for allowlisted, non-sensitive delivery metadata. Use real source identifiers and collection timestamps; never manufacture historical approvals or test results.
 4. **Before real data:** establish authentication, per-record authorisation, organisation isolation, trusted audit events, retention/deletion policy, encrypted persistence, backup and restore verification. Select database and measured resource budget at that point; current K3s RAM does not need to change for this design work.
 5. **Before external pilot:** demonstrate the actual workflow and its limitations with a designated reviewer. Do not promise integration availability before it is implemented and tested.
@@ -73,3 +73,9 @@ Drafts allow missing review/implementation fields. The schema checks structure; 
 ## Design artifact validation
 
 The JSON Schema was checked with a Draft 2020-12 validator in a temporary environment, with date-time and URI format checks enabled. The synthetic draft passed. Seven invalid variants were rejected: unsupported version, non-positive revision, invalid timestamp, unexpected field, invalid digest, out-of-scope emergency change type and invalid source URI. No validation dependency was added to the web application. These checks validate the contract, not the proposed workflow or regulatory compliance.
+
+## Synthetic website walkthrough
+
+The /demo route demonstrates the draft package with overview, ownership, risk/fallback disclosure, evidence provenance and four illustrative gaps. Visitors can filter checks and download the original synthetic JSON. There are no approvals, inputs, uploads, collector requests, user identity, persistence or new API endpoints. The UI checklist is a fixed walkthrough, not a runtime evaluation of arbitrary packages or a legal compliance score. The draft JSON download intentionally does not contain those UI checks.
+
+The canonical fixture remains product/dora/examples/change-evidence.synthetic.json. A byte-equivalent JSON copy is shipped in apps/bankops-web/public/demo for the app-only Docker build context. Browser tests compare the served JSON with the canonical object; update both together. Future operational code must never replace this public fixture with real evidence.

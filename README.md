@@ -159,7 +159,7 @@ lab-ai-01 is an isolated unprivileged Debian 13 LXC with 2 vCPU, 2 GiB RAM, zero
 
 ## BankOps.dev — 2026-10-28
 
-The first BankOps.dev product-introduction site is live at **http://lab-k3s-01.lan** on the private LAN. A tested, non-root Next.js container is published to GHCR and deployed by Flux from Git, using a dedicated bankops namespace and scoped application reconciliation. A modest navy/blue/teal visual refresh improves hero typography, conceptual evidence visuals, cards, navigation, and mobile spacing; visitor-facing GitHub links have been removed. The page clearly marks evidence automation as a proposed product direction; no business backend or database is implemented. See [build, deployment, and validation](docs/10-bankops-web.md).
+The first BankOps.dev product-introduction site is live at **http://lab-k3s-01.lan** on the private LAN. A tested, non-root Next.js container is published to GHCR and deployed by Flux from Git, using a dedicated bankops namespace and scoped application reconciliation. A modest navy/blue/teal visual refresh improves hero typography, conceptual evidence visuals, cards, navigation, and mobile spacing; visitor-facing GitHub links have been removed. The page clearly marks evidence automation as a proposed product direction; no business backend or database is implemented. A synthetic, read-only [change evidence demo](https://bankops.dev/demo) illustrates the first DORA-focused workflow without real records, approvals or a compliance verdict. See [build, deployment, and validation](docs/10-bankops-web.md).
 
 ## Cloudflare Tunnel — 2026-10-28
 

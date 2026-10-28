@@ -15,3 +15,5 @@ npm run test:browser
 Use Node.js 24. The standalone multi-stage Dockerfile pins the Node base digest and runs UID/GID 1001. `/healthz` is the production health endpoint. GitHub Actions builds the amd64 image, runs it read-only with a 256 MiB limit, runs desktop/mobile browser checks and the image healthcheck, then publishes to GHCR and commits its immutable digest to `deploy/bankops/deployment.yaml`.
 
 The cluster uses Traefik and Flux with manifests under `clusters/lab` and `deploy/bankops`. The intended private URL is http://lab-k3s-01.lan. Public DNS, ingress TLS, and any future product/backend capabilities are separate work. See the repository operations documentation for deployment validation results.
+
+The public /demo route is a synthetic, read-only change evidence walkthrough. It supports gap filtering, native disclosures and static JSON download, with no inputs, approval operations, source fetching or persistence. Keep public/demo/change-evidence.synthetic.json synchronized with the canonical product/dora example; the browser suite checks object parity. Never put real evidence in public/.
