@@ -165,3 +165,12 @@ test("OpenShift technical excerpts support evidence without inventing an upgrade
   expect(errors).toEqual([]);
   expect(writes).toEqual([]);
 });
+
+// SSR must not present working client controls before handlers are attached.
+test("server HTML keeps interactive controls disabled until hydration", async ({ request }) => {
+  const response = await request.get("/demo");
+  expect(response.ok()).toBeTruthy();
+  const html = await response.text();
+  expect(html).toMatch(/<select(?=[^>]*id="scenario-select")(?=[^>]*disabled="")[^>]*>/);
+  expect(html).toMatch(/<button(?=[^>]*disabled="")[^>]*>Gaps only<\/button>/);
+});
