@@ -4,11 +4,11 @@
 
 ## Current result — 2026-10-28
 
-The Flux-managed connector is deployed and healthy, but **the public website is not yet working: the apex route/DNS is absent, and the existing WWW route incorrectly uses HTTPS to the HTTP-only origin port 80**. Do not interpret connector readiness as successful public-site validation.
+**Public HTTPS launch is verified at https://bankops.dev.** Normal-DNS requests from the VM return HTTP/2 200 with certificate verification enabled. Both published routes now correctly use HTTP to Traefik port 80. HTTPS WWW redirects, HTML, application assets, and desktop/mobile browser behavior pass. Remaining follow-ups: enforce apex HTTP-to-HTTPS at Cloudflare and clear the Mac’s stale system DNS state; neither blocks the independently verified public HTTPS endpoint.
 
 | Item | Verified result |
 | --- | --- |
-| Intended public URL | https://bankops.dev — public DNS/HTTPS validation pending |
+| Intended public URL | https://bankops.dev — public HTTPS verified |
 | Tunnel name | bankops-production, supplied by the operator |
 | Tunnel identity | e7373f52-8229-4a27-a9ee-ee64b3794a8c, verified against token metadata and connector startup |
 | Connector | cloudflare-tunnel/cloudflared, 1/1 Available, Ready, zero restarts |
@@ -19,10 +19,10 @@ The Flux-managed connector is deployed and healthy, but **the public website is 
 | Private URL | http://lab-k3s-01.lan/healthz returns HTTP 200 |
 | Apex origin routing | Host bankops.dev returns BankOps content through private Traefik |
 | WWW origin routing | HTTP 301 to https://bankops.dev, preserving paths and query strings, including encoded values |
-| Public DNS | Apex has no A/AAAA answers; WWW now resolves to Cloudflare edge addresses (104.21.96.74, 172.67.174.70) |
-| Edge certificate verification | TLS verification passed for both SNI names using the observed edge address; no certificate bypass |
-| Public application responses | WWW HTTPS returns 502; apex returns 530 when explicitly resolved to the edge, and normal apex DNS resolution fails |
-| Public mobile / end-to-end redirects | Still blocked by account routing; not claimed as passed |
+| Public DNS | Apex and WWW resolve to Cloudflare; router resolver and 1.1.1.1 return edge IPv4 addresses 104.21.96.74 and 172.67.174.70 |
+| Edge certificate verification | Normal-DNS HTTPS from the VM passed for apex and WWW; no certificate bypass |
+| Public application responses | Apex HTTP/2 200; BankOps HTML and /healthz confirmed; seven referenced JS/CSS assets return 200 with expected content types |
+| Public mobile / end-to-end redirects | Desktop/mobile content, CTA, layout and JavaScript checks passed using observed edge addresses on Mac; WWW encoded path/query redirect passed via normal DNS on VM |
 | Existing workloads | K3s Ready; BankOps, Flux, Traefik, and system workloads healthy |
 
 Readiness and registered connections prove the supplied token can connect this connector to Cloudflare. Account-level tunnel status and configuration were not queried through Cloudflare's management API; only the connector token was provided. Its authority is not a substitute for account/DNS management access.
@@ -31,7 +31,7 @@ Readiness and registered connections prove the supplied token can connect this c
 
 ```mermaid
 flowchart LR
-    Browser[Public browser / currently blocked by missing DNS] -.-> Edge[Cloudflare HTTPS edge]
+    Browser[Public browser] --> Edge[Cloudflare HTTPS edge]
     Edge <-->|Encrypted outbound-established QUIC or HTTP2 tunnel| Connector[cloudflared pod / cloudflare-tunnel namespace]
     Connector -->|Cluster-internal HTTP| Traefik[traefik.kube-system.svc.cluster.local:80]
     Traefik --> Service[BankOps ClusterIP Service]
@@ -47,9 +47,9 @@ No router port forwarding, public node IP, LoadBalancer for cloudflared, host ne
 
 The remotely managed tunnel's published application routes remain Cloudflare account configuration. Flux manages connector execution and Kubernetes routing; it cannot create Cloudflare DNS from the connector token. The existing Next.js app/image and GitHub Actions publishing architecture are unchanged.
 
-## Exact Cloudflare dashboard corrections still required
+## Verified Cloudflare routes and remaining HTTPS redirect
 
-Open **Cloudflare dashboard → Networking → Tunnels → bankops-production → Routes → Add route → Published application**. Confirm the selected tunnel ID is the one recorded above. **Edit the existing www.bankops.dev route: change Service type from HTTPS to HTTP, keeping port 80.** Then add the missing apex route with the subdomain field empty. Ensure the final routes are:
+Under **Cloudflare dashboard → Networking → Tunnels → bankops-production → Routes**, preserve the following configuration. Both routes were verified in the connector’s received configuration after the operator corrected account settings:
 
 | Hostname | Service type | Service URL |
 | --- | --- | --- |
@@ -58,7 +58,7 @@ Open **Cloudflare dashboard → Networking → Tunnels → bankops-production �
 
 For the apex, leave the subdomain empty and select bankops.dev. For WWW, use subdomain www and domain bankops.dev. Leave path matching unset to include all application paths. Under HTTP origin settings, leave HTTP Host Header unset so the original public hostname reaches Traefik. Explicit respective public hostnames also work; do not override WWW to the apex or to the service DNS name, because that bypasses canonical routing or produces a Traefik 404.
 
-Allow Cloudflare to create the associated proxied DNS records. If an existing record conflicts, inspect it before making changes. Do not point DNS at the lab's private address or configure router forwarding. WWW DNS is currently present; do not recreate it unnecessarily. The expected tunnel target, derived from the supplied real tunnel ID, is `e7373f52-8229-4a27-a9ee-ee64b3794a8c.cfargotunnel.com`. This is required configuration guidance, **not a claim that the missing apex record already exists**. Proxied/flattened DNS normally returns edge addresses rather than exposing that CNAME in recursive queries.
+Allow Cloudflare to create the associated proxied DNS records. If an existing record conflicts, inspect it before making changes. Do not point DNS at the lab's private address or configure router forwarding. Both public names now resolve; do not recreate working records unnecessarily. The expected tunnel target, derived from the supplied real tunnel ID, is `e7373f52-8229-4a27-a9ee-ee64b3794a8c.cfargotunnel.com`. Public DNS and successful tunnel-backed requests validate routing; account DNS records were not read through a management API. Proxied/flattened DNS normally returns edge addresses rather than exposing that CNAME in recursive queries.
 
 Next, open **bankops.dev → SSL/TLS → Edge Certificates** and confirm an active certificate covers bankops.dev and www.bankops.dev. Do not bypass certificate validation to work around pending issuance.
 
@@ -75,7 +75,7 @@ Choose a **Dynamic** URL redirect, status **301**, destination:
 concat("https://bankops.dev", http.request.uri.path)
 ```
 
-Enable **Preserve query string**. The rule does not match HTTPS apex requests, avoiding a canonical redirect loop. Public HTTP-to-HTTPS rule behavior has not yet been validated. Review existing rules for conflicts instead of adding duplicate/opposite redirects. The Git-managed Traefik WWW redirect is a fallback and is already validated; it intentionally does not force origin HTTP to HTTPS, which could loop because the tunnel's internal service URL is HTTP. The edge rule handles insecure apex requests.
+Enable **Preserve query string**. The rule does not match HTTPS apex requests, avoiding a canonical redirect loop. **Remaining action:** the verified plain-HTTP apex /healthz request returned 200, so HTTPS enforcement is not active for that path. Apply or correct this scoped edge rule, then recheck HTTP requests redirect to HTTPS while retaining paths and query strings. Review existing rules for conflicts instead of adding duplicate/opposite redirects. The Git-managed Traefik WWW redirect is a fallback and is already validated; it intentionally does not force origin HTTP to HTTPS, which could loop because the tunnel's internal service URL is HTTP. The edge rule handles insecure apex requests.
 
 Official references: [published application routes](https://developers.cloudflare.com/tunnel/get-started/), [tunnel token scope](https://developers.cloudflare.com/tunnel/reference/tunnel-tokens/), [redirect rules](https://developers.cloudflare.com/rules/url-forwarding/single-redirects/create-dashboard/), and [ssl request field](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/ssl/).
 
@@ -155,4 +155,14 @@ Never use curl -k, insecure-skip-tls-verify, or a browser certificate bypass. Ve
 BANKOPS_TEST_URL=https://bankops.dev npm run test:browser
 ```
 
-Full public application/browser checks have **not passed yet**. WWW DNS appeared during validation, but the connector received a WWW origin configured as https://traefik.kube-system.svc.cluster.local:80; public HTTPS returned 502. Change that origin to HTTP, without disabling TLS validation. The apex still has no DNS address. Edge TLS certificates did verify against the observed Cloudflare IP, but that alone is not a successful website check. The existing private page, both public Host rules at the origin, encoded WWW redirect, connector health/identity, network isolation, Secret permissions, and Flux reconciliation are validated. A healthy connector with a 404 public page would indicate missing/mismatched remote route or Host header; a 502 points to the service URL/network origin path. In this deployment the observed HTTPS-to-port-80 mismatch explains the WWW 502; do not fix it by weakening certificate verification or changing Traefik to TLS on its HTTP port. Fix account routing rather than weakening TLS or exposing a management listener.
+## Public launch validation results — 2026-10-28
+
+- Normal DNS on the VM: apex HTTPS returned HTTP/2 200 with TLS verification result 0. WWW HTTPS redirected 301 to the HTTPS apex; following /healthz?check=1 completed with JSON status ok in exactly one redirect, within a five-redirect bound.
+- Encoded redirect test: https://www.bankops.dev/a%20path/check?next=%2Fpage%3Fx%3D1&label=a%20b returned the exact Location https://bankops.dev/a%20path/check?next=%2Fpage%3Fx%3D1&label=a%20b. No path/query loss or redirect loop was observed.
+- HTML contained the expected BankOps headline and honest early-product-preview disclosure. All seven referenced JavaScript/CSS assets returned HTTP 200 with appropriate content types and nonempty bodies. Chromium desktop (1440 px) and mobile (390 px) checks verified rendering, working contact CTA, no horizontal overflow, and no page JavaScript errors.
+- Mac caveat: normal curl and the unmodified browser suite initially failed ERR_NAME_NOT_RESOLVED, despite correct answers from the configured router resolver and 1.1.1.1. dscacheutil showed only AAAA entries and its unprivileged cache flush did not repair resolution. sudo -n could not signal mDNSResponder because a password is required. Mac content/asset/browser checks therefore used explicitly mapped, currently DNS-observed Cloudflare IPs, retaining the public hostname, SNI, and certificate verification. These checks are distinct from the successful VM normal-DNS tests. No hosts-file or DNS-server configuration was changed.
+- Operator Mac remedy: run sudo dscacheutil -flushcache followed by sudo killall -HUP mDNSResponder in an authenticated local terminal, then rerun normal curl and BANKOPS_TEST_URL=https://bankops.dev npm run test:browser. If resolution still fails, inspect scutil --dns and compare dig bankops.dev A with dscacheutil -q host -a name bankops.dev before changing resolver settings.
+- Connector /ready returned 200; four registered connections and both correct HTTP origin routes were verified from sanitized logs. BankOps and Traefik Deployments were each 1/1 Available; K3s node Ready and running workloads healthy. All Flux sources/Kustomizations were Ready. Private LAN /healthz remained healthy.
+- Only the two website hostnames plus the catch-all were present in received tunnel ingress configuration. Kubernetes service/Ingress inventory showed no new management exposure; the guest management API firewall still drops LAN TCP 6443/6444/10250 and UDP 8472. Existing connector network isolation remains unchanged. This verifies the inspected deployment, not an account-wide or router-wide external security audit; only a connector token is available.
+
+Remaining work is limited to the Cloudflare apex HTTP-to-HTTPS redirect, the Mac resolver follow-up, and normal operational maintenance. Public HTTPS works; do not use certificate bypasses or expose management listeners to troubleshoot DNS. The single-node availability and cluster-internal HTTP limitations described above remain.

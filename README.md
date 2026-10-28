@@ -22,7 +22,7 @@ Baseline recorded on **2026-10-25**. Shared-host capacity, K3s health, the local
 | SSH | Public-key login verified; password authentication disabled |
 | Terraform | VM 200 and CT 201 adopted; zero-change plan verified |
 | K3s | v1.36.5+k3s1; node Ready; DNS, ingress, and reboot recovery verified |
-| BankOps.dev | Private site healthy; Cloudflare connector Ready; apex DNS and WWW origin correction pending |
+| BankOps.dev | Public HTTPS verified; Cloudflare Tunnel and Flux healthy |
 | Local LLM | CT 201 lab-ai-01; CPU-only Ollama 0.40.12 and qwen2.5-coder:1.5b; SSH-only API |
 | Headlamp Desktop | Mac v0.46.0; read-only context and SSH API tunnel verified |
 | GitOps | Flux 2.10.0 source/kustomize controllers Ready; BankOps digest reconciliation verified |
@@ -105,8 +105,8 @@ lab-ai-01 is an isolated unprivileged Debian 13 LXC with 2 vCPU, 2 GiB RAM, zero
 
 ## BankOps.dev — 2026-10-28
 
-The first BankOps.dev product-introduction site is live at **http://lab-k3s-01.lan** on the private LAN. A tested, non-root Next.js container is published to GHCR and deployed by Flux from Git, using a dedicated bankops namespace and scoped application reconciliation. The page clearly marks evidence automation as a proposed product direction; no business backend or database is implemented. See [build, deployment, validation, and public-launch remaining work](docs/10-bankops-web.md).
+The first BankOps.dev product-introduction site is live at **http://lab-k3s-01.lan** on the private LAN. A tested, non-root Next.js container is published to GHCR and deployed by Flux from Git, using a dedicated bankops namespace and scoped application reconciliation. The page clearly marks evidence automation as a proposed product direction; no business backend or database is implemented. See [build, deployment, and validation](docs/10-bankops-web.md).
 
 ## Cloudflare Tunnel — 2026-10-28
 
-The Flux-managed bankops-production connector is Ready with four registered Cloudflare connections. Its token is installed out of Git as a Kubernetes Secret. Traefik accepts bankops.dev and www.bankops.dev while preserving lab-k3s-01.lan; WWW canonical redirects preserve paths/query strings. WWW now resolves but its Cloudflare origin uses HTTPS on port 80 and returns 502; the apex DNS/route remains missing. The public website is not yet validated. See [exact dashboard actions and recovery](docs/11-cloudflare-tunnel.md).
+BankOps.dev is publicly available at **https://bankops.dev** through the Flux-managed bankops-production Cloudflare Tunnel. Normal-DNS HTTPS, actual HTML/assets, and WWW redirects preserving encoded paths/query strings are verified; desktop/mobile browser checks pass. K3s, Traefik, BankOps, and Flux remain healthy, with private LAN access preserved and no new management routes. Remaining follow-ups: enforce apex HTTP-to-HTTPS in Cloudflare and clear stale Mac system DNS state (Mac browser validation used observed edge addresses with TLS verification; VM normal DNS passed). See [verified launch results, security, and recovery](docs/11-cloudflare-tunnel.md).
