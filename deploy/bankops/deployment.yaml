@@ -33,7 +33,7 @@ spec:
       containers:
         - name: web
           # Replaced by CI with an immutable published digest after container tests.
-          image: ghcr.io/atasenkeremdev/bankops-web@sha256:736b2ca75c8544e62e3ef287ba9f46b137be43e24ea63f8a806d9f9943a518ac
+          image: ghcr.io/atasenkeremdev/bankops-web@sha256:afe952726e4d9d3e9b0678b2b8a520b55b1ff5efe6a81b3a49ca3e6c3aa57491
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
