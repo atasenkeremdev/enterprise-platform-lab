@@ -2,12 +2,15 @@
 
 [Project overview](../README.md) · [Next: Proxmox setup](02-proxmox-setup.md)
 
+[Complete architecture diagram and high-resolution export](diagrams/README.md)
+
 ## Verified physical architecture
 
-The lab consists of one Proxmox node, `pve`. Installation history and chassis model are not recorded; the following inventory was read from the running system on 2026-10-25.
+The lab consists of one Proxmox node, `pve`. Installation history is not recorded. The base inventory was read from the running system on 2026-10-25; a read-only DMI check on 2026-10-28 identified HP EliteDesk 800 G2 DM 35W (HP EliteDesk 800 G2 Mini family).
 
 | Component | Observed configuration |
 | --- | --- |
+| Physical hardware | HP EliteDesk 800 G2 Mini; DMI: HP EliteDesk 800 G2 DM 35W |
 | Hypervisor | Proxmox VE 9.2.21; kernel 7.0.14-25-pve |
 | Processor | Intel Core i5-6500T, 4 cores / 4 logical CPUs, VT-x |
 | Host memory | 7819 MiB reported usable, approximately 8 GiB installed |

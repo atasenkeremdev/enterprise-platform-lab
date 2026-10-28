@@ -33,18 +33,71 @@ All addresses shown are **private LAN addresses**, not publicly reachable servic
 ## Architecture and stack
 
 ```mermaid
-flowchart LR
-    Operator[Operator workstation] -->|SSH and private API| PVE[Proxmox pve]
-    LAN[Private LAN and DHCP router] --- Bridge[vmbr0 bridge]
-    Bridge --- VM[Ubuntu lab-k3s-01 / VM 200]
-    PVE --> VM
-    Bridge --- AI[Debian lab-ai-01 / CT 201]
-    PVE --> AI
-    NVMe --> AI
-    Operator -->|SSH loopback tunnel| AI
-    NVMe[NVMe LVM-thin / nvme-vm] --> VM
-    TF[Terraform / VM 200 and CT 201 adopted] -.-> PVE
+flowchart TB
+    subgraph CLOUD["External cloud services"]
+        direction LR
+        Git["GitHub repository<br/>Application + manifests + Terraform"]
+        CI["GitHub Actions<br/>Build + test container"]
+        Registry["GHCR<br/>Immutable application image"]
+        Internet["Internet browser<br/>https://bankops.dev"]
+        Edge["Cloudflare edge<br/>DNS + public TLS"]
+    end
+    subgraph MAC["Mac Mini · operator workstation"]
+        TF["Terraform<br/>Adopted VM + LXC resources"]
+        Headlamp["Headlamp Desktop<br/>Read-only Kubernetes access"]
+    end
+    subgraph HOST["HP EliteDesk 800 G2 Mini · i5-6500T · approximately 8 GiB RAM"]
+        subgraph PVE["Proxmox VE 9 · single host · nvme-vm storage"]
+            API["Private Proxmox API"]
+            subgraph VM["VM 200 · lab-k3s-01 · Ubuntu Server 24.04 · 2 vCPU / 3 GiB / 40 GiB"]
+                subgraph K3S["Single-node K3s · embedded SQLite · no HA"]
+                    Flux["Flux CD<br/>Source + Kustomize controllers"]
+                    KubeAPI["Kubernetes API<br/>Private management"]
+                    Runtime["Containerd<br/>Pulls the pinned image"]
+                    Tunnel["cloudflared<br/>namespace: cloudflare-tunnel"]
+                    Traefik["Traefik ingress<br/>namespace: kube-system"]
+                    App["BankOps.dev · Next.js<br/>ClusterIP Service → pod<br/>namespace: bankops"]
+                end
+            end
+            subgraph EXP["Separate experiment · CT 201 · lab-ai-01 · Debian 13 · 2 vCPU / 2 GiB / 20 GiB"]
+                Ollama["Ollama · Qwen2.5-Coder 1.5B<br/>CPU-only · localhost API · no agent"]
+                Verdict["Experimental — CPU inference performance insufficient for practical use"]
+            end
+        end
+    end
+    Git -->|"Source push"| CI
+    CI -->|"Publish validated image"| Registry
+    CI -->|"Commit image digest"| Git
+    Git -.->|"Flux pulls main over HTTPS"| Flux
+    Flux -.->|"Reconcile manifests"| App
+    Flux -.->|"Reconcile connector"| Tunnel
+    Registry -->|"Image pull by runtime"| Runtime
+    Runtime -->|"Runs image"| App
+    Internet ==>|"HTTPS"| Edge
+    Edge ==>|"Request through established tunnel"| Tunnel
+    Tunnel ==>|"Internal HTTP"| Traefik
+    Traefik ==>|"Host routing"| App
+    Tunnel -.->|"Outbound encrypted connection; no router port forwarding"| Edge
+    TF -.->|"Private API · infrastructure provisioning"| API
+    Headlamp -.->|"SSH tunnel · TLS · read-only RBAC"| KubeAPI
+    Ollama --- Verdict
+    classDef cloud fill:#edf3ff,stroke:#526fa8,color:#13263e
+    classDef platform fill:#112c43,stroke:#4a8a9b,color:#f4f8fc
+    classDef operator fill:#f0f5fa,stroke:#74899c,color:#162c42
+    classDef experiment fill:#fff5e6,stroke:#b1843c,color:#583e19
+    class Git,CI,Registry,Internet,Edge cloud
+    class Flux,KubeAPI,Runtime,Tunnel,Traefik,App,API platform
+    class TF,Headlamp operator
+    class Ollama,Verdict experiment
+    linkStyle 0,1,2,6,7 stroke:#557fce,stroke-width:2px
+    linkStyle 3,4,5 stroke:#269b8a,stroke-width:2px
+    linkStyle 8,9,10,11 stroke:#0eaaad,stroke-width:3px
+    linkStyle 12 stroke:#0eaaad,stroke-width:2px
+    linkStyle 13 stroke:#8b70d7,stroke-width:2px
+    linkStyle 14 stroke:#7d8a9a,stroke-width:2px
 ```
+
+[High-resolution LinkedIn PNG](docs/diagrams/enterprise-platform-lab-linkedin.png) · [Editable SVG](docs/diagrams/enterprise-platform-lab.svg) · [Diagram sources and evidence](docs/diagrams/README.md)
 
 The host uses an Intel Core i5-6500T, approximately 8 GiB RAM, a SATA system SSD, and a separate NVMe VM datastore. The current toolchain is Terraform 1.17.0 with bpg/proxmox 0.118.0, Proxmox CLI, OpenSSH, and Ubuntu cloud-init. K3s uses SQLite, containerd, Flannel, CoreDNS, Traefik, and ServiceLB. Flux now reconciles the BankOps application from Git.
 

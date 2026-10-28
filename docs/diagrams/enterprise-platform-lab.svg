@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1540" viewBox="0 0 1920 1540" role="img" aria-labelledby="title desc"><title id="title">Enterprise Platform Engineering Home Lab</title><desc id="desc">Verified single-host Proxmox lab, BankOps delivery and public request paths, private workstation access, and separate experimental Ollama LXC.</desc>
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0b1728"/><stop offset="1" stop-color="#122c40"/></linearGradient><linearGradient id="panel" x2="1" y2="1"><stop stop-color="#15354a"/><stop offset="1" stop-color="#112639"/></linearGradient>
+<marker id="traffic" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#61dfd5" stroke-width="1.7"/></marker>
+<marker id="ci" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#8ab4ff" stroke-width="1.7"/></marker>
+<marker id="gitops" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#6be0ae" stroke-width="1.7"/></marker>
+<marker id="infra" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#c1a3ff" stroke-width="1.7"/></marker>
+<marker id="manage" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#adbdce" stroke-width="1.7"/></marker>
+<marker id="exp" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#dfbd80" stroke-width="1.7"/></marker>
+</defs><rect width="1920" height="1540" fill="url(#bg)"/>
+<text x="62" y="67" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#87c9d2" text-anchor="start">ENTERPRISE PLATFORM ENGINEERING</text>
+<text x="60" y="122" font-family="Arial, Helvetica, sans-serif" font-size="46" font-weight="600" fill="#f1f7fc" text-anchor="start">A small lab. A complete delivery path.</text>
+<text x="62" y="162" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#b9ccdd" text-anchor="start">BankOps.dev  /  Infrastructure as code → tested images → GitOps → public HTTPS</text>
+<path d="M64 204 h42" stroke="#61dfd5" stroke-width="3"/>
+<text x="119" y="211" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#c7d7e6" text-anchor="start">Application traffic</text>
+<path d="M393 204 h42" stroke="#8ab4ff" stroke-width="3"/>
+<text x="448" y="211" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#c7d7e6" text-anchor="start">CI + image delivery</text>
+<path d="M748 204 h42" stroke="#6be0ae" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="803" y="211" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#c7d7e6" text-anchor="start">GitOps</text>
+<path d="M973 204 h42" stroke="#c1a3ff" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="1028" y="211" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#c7d7e6" text-anchor="start">Provisioning</text>
+<path d="M1260 204 h42" stroke="#adbdce" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="1315" y="211" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#c7d7e6" text-anchor="start">Private management</text>
+<rect x="60" y="246" width="1800" height="278" rx="16" fill="#102337" stroke="#365069" stroke-width="1.5"/>
+<text x="84" y="280" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#98b5d0" text-anchor="start">EXTERNAL CLOUD SERVICES</text>
+<rect x="90" y="318" width="300" height="112" rx="12" fill="url(#panel)" stroke="#426276" stroke-width="1.5"/>
+<rect x="90" y="334" width="4" height="80" rx="2" fill="#8ab4ff"/>
+<text x="112" y="352" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600" fill="#f1f7fc" text-anchor="start">GitHub repository</text>
+<text x="112" y="380" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">Source + desired state</text>
+<rect x="485" y="318" width="280" height="112" rx="12" fill="url(#panel)" stroke="#426276" stroke-width="1.5"/>
+<rect x="485" y="334" width="4" height="80" rx="2" fill="#8ab4ff"/>
+<text x="507" y="352" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600" fill="#f1f7fc" text-anchor="start">GitHub Actions</text>
+<text x="507" y="380" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">Build + test container</text>
+<rect x="870" y="318" width="280" height="112" rx="12" fill="url(#panel)" stroke="#426276" stroke-width="1.5"/>
+<rect x="870" y="334" width="4" height="80" rx="2" fill="#8ab4ff"/>
+<text x="892" y="352" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600" fill="#f1f7fc" text-anchor="start">GHCR</text>
+<text x="892" y="380" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">Immutable image digest</text>
+<rect x="1420" y="370" width="410" height="114" rx="12" fill="url(#panel)" stroke="#426276" stroke-width="1.5"/>
+<rect x="1420" y="386" width="4" height="82" rx="2" fill="#61dfd5"/>
+<text x="1442" y="404" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600" fill="#f1f7fc" text-anchor="start">Cloudflare edge</text>
+<text x="1442" y="432" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">DNS + TLS · bankops.dev</text>
+<text x="1625" y="302" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600" fill="#edf7fc" text-anchor="middle">Internet browser</text>
+<path d="M1625 314 V368" fill="none" stroke="#61dfd5" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#traffic)"/>
+<text x="1680" y="342" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#61dfd5" text-anchor="start">HTTPS</text>
+<path d="M390 350 H483" fill="none" stroke="#8ab4ff" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ci)"/>
+<text x="438" y="335" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#8ab4ff" text-anchor="middle">push</text>
+<path d="M765 350 H868" fill="none" stroke="#8ab4ff" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ci)"/>
+<text x="816" y="335" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#8ab4ff" text-anchor="middle">publish</text>
+<path d="M625 432 V480 H240 V432" fill="none" stroke="#8ab4ff" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ci)"/>
+<text x="438" y="470" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#8ab4ff" text-anchor="middle">Commit image digest</text>
+<rect x="450" y="602" width="1410" height="838" rx="20" fill="#0d1e2e" stroke="#6e8fa5" stroke-width="1.5"/>
+<text x="478" y="640" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="600" fill="#e5eff8" text-anchor="start">HP EliteDesk 800 G2 Mini</text>
+<text x="1828" y="640" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#b4c9db" text-anchor="end">i5-6500T · ~8 GiB RAM</text>
+<rect x="476" y="670" width="1358" height="744" rx="16" fill="#102538" stroke="#496b83" stroke-width="1.5"/>
+<text x="501" y="707" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="600" fill="#dceaf5" text-anchor="start">PROXMOX VE 9</text>
+<text x="1810" y="707" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b8c9d8" text-anchor="end">Single host · nvme-vm datastore</text>
+<rect x="500" y="730" width="270" height="81" rx="12" fill="url(#panel)" stroke="#426276" stroke-width="1.5"/>
+<rect x="500" y="746" width="4" height="49" rx="2" fill="#c1a3ff"/>
+<text x="522" y="764" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600" fill="#f1f7fc" text-anchor="start">Private Proxmox API</text>
+<rect x="60" y="602" width="330" height="812" rx="20" fill="#102337" stroke="#426078" stroke-width="1.5"/>
+<text x="84" y="641" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="600" fill="#dceaf5" text-anchor="start">MAC MINI</text>
+<text x="84" y="673" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#a9c0d5" text-anchor="start">Operator workstation</text>
+<rect x="84" y="730" width="282" height="100" rx="12" fill="url(#panel)" stroke="#426276" stroke-width="1.5"/>
+<rect x="84" y="746" width="4" height="68" rx="2" fill="#c1a3ff"/>
+<text x="106" y="764" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600" fill="#f1f7fc" text-anchor="start">Terraform</text>
+<text x="106" y="792" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">VM + LXC adopted</text>
+<rect x="84" y="930" width="282" height="124" rx="12" fill="url(#panel)" stroke="#426276" stroke-width="1.5"/>
+<rect x="84" y="946" width="4" height="92" rx="2" fill="#adbdce"/>
+<text x="106" y="964" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600" fill="#f1f7fc" text-anchor="start">Headlamp Desktop</text>
+<text x="106" y="992" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">Read-only Kubernetes</text>
+<text x="106" y="1017" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">access over SSH + TLS</text>
+<rect x="84" y="1170" width="282" height="100" rx="12" fill="url(#panel)" stroke="#426276" stroke-width="1.5"/>
+<rect x="84" y="1186" width="4" height="68" rx="2" fill="#dfbd80"/>
+<text x="106" y="1204" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600" fill="#f1f7fc" text-anchor="start">Local AI client</text>
+<text x="106" y="1232" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">Optional SSH tunnel</text>
+<path d="M366 770 H498" fill="none" stroke="#c1a3ff" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#infra)" stroke-dasharray="8 6"/>
+<rect x="500" y="838" width="1000" height="550" rx="14" fill="#122e43" stroke="#628aa1" stroke-width="1.5"/>
+<text x="524" y="875" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="600" fill="#f0f6fb" text-anchor="start">VM 200  /  lab-k3s-01</text>
+<text x="524" y="906" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#b5ccdd" text-anchor="start">Ubuntu Server 24.04 · 2 vCPU · 3 GiB RAM · 40 GiB disk</text>
+<rect x="524" y="930" width="952" height="432" rx="12" fill="#0d2334" stroke="#3e897f" stroke-width="1.5"/>
+<text x="548" y="968" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="600" fill="#9ce2d0" text-anchor="start">SINGLE-NODE K3s</text>
+<text x="1450" y="968" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#abc8d2" text-anchor="end">SQLite · containerd</text>
+<rect x="548" y="1008" width="250" height="112" rx="12" fill="url(#panel)" stroke="#426276" stroke-width="1.5"/>
+<rect x="548" y="1024" width="4" height="80" rx="2" fill="#6be0ae"/>
+<text x="570" y="1042" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600" fill="#f1f7fc" text-anchor="start">Flux CD</text>
+<text x="570" y="1070" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">Source + Kustomize</text>
+<rect x="830" y="1008" width="250" height="112" rx="12" fill="url(#panel)" stroke="#426276" stroke-width="1.5"/>
+<rect x="830" y="1024" width="4" height="80" rx="2" fill="#adbdce"/>
+<text x="852" y="1042" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600" fill="#f1f7fc" text-anchor="start">Kubernetes API</text>
+<text x="852" y="1070" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">Private management</text>
+<rect x="1112" y="1008" width="340" height="112" rx="12" fill="url(#panel)" stroke="#426276" stroke-width="1.5"/>
+<rect x="1112" y="1024" width="4" height="80" rx="2" fill="#8ab4ff"/>
+<text x="1134" y="1042" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600" fill="#f1f7fc" text-anchor="start">Containerd</text>
+<text x="1134" y="1070" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">Pulls pinned GHCR image</text>
+<rect x="548" y="1200" width="268" height="132" rx="12" fill="url(#panel)" stroke="#426276" stroke-width="1.5"/>
+<rect x="548" y="1216" width="4" height="100" rx="2" fill="#61dfd5"/>
+<text x="570" y="1234" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600" fill="#f1f7fc" text-anchor="start">BankOps.dev</text>
+<text x="570" y="1262" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">Next.js · bankops</text>
+<text x="570" y="1287" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">ClusterIP Service → pod</text>
+<rect x="876" y="1200" width="240" height="132" rx="12" fill="url(#panel)" stroke="#426276" stroke-width="1.5"/>
+<rect x="876" y="1216" width="4" height="100" rx="2" fill="#61dfd5"/>
+<text x="898" y="1234" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600" fill="#f1f7fc" text-anchor="start">Traefik</text>
+<text x="898" y="1262" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">Ingress routing</text>
+<text x="898" y="1287" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">kube-system</text>
+<rect x="1176" y="1200" width="276" height="132" rx="12" fill="url(#panel)" stroke="#426276" stroke-width="1.5"/>
+<rect x="1176" y="1216" width="4" height="100" rx="2" fill="#61dfd5"/>
+<text x="1198" y="1234" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600" fill="#f1f7fc" text-anchor="start">cloudflared</text>
+<text x="1198" y="1262" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">Cloudflare Tunnel</text>
+<text x="1198" y="1287" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#b6c9d9" text-anchor="start">cloudflare-tunnel</text>
+<rect x="1530" y="750" width="280" height="638" rx="14" fill="#2b2b2c" stroke="#aa8c5e" stroke-width="1.5" stroke-dasharray="8 7"/>
+<text x="1550" y="791" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#dfbd80" text-anchor="start">SEPARATE EXPERIMENT</text>
+<text x="1550" y="835" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="600" fill="#f1e3cf" text-anchor="start">CT 201 / lab-ai-01</text>
+<text x="1550" y="870" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" fill="#cfbfaa" text-anchor="start">Debian 13 · LXC</text>
+<text x="1550" y="904" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#cfbfaa" text-anchor="start">2 vCPU · 2 GiB</text>
+<text x="1550" y="936" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#cfbfaa" text-anchor="start">20 GiB disk</text>
+<text x="1550" y="997" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="600" fill="#f7ead7" text-anchor="start">Ollama</text>
+<text x="1550" y="1035" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#ead4ad" text-anchor="start">Qwen2.5-Coder 1.5B</text>
+<text x="1550" y="1070" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#cfbfaa" text-anchor="start">CPU only · localhost API</text>
+<path d="M1550 1100 H1790" stroke="#806b4f"/>
+<text x="1550" y="1140" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" fill="#f1d5a2" text-anchor="start">Experimental —</text>
+<text x="1550" y="1169" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" fill="#f1d5a2" text-anchor="start">CPU inference performance</text>
+<text x="1550" y="1198" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" fill="#f1d5a2" text-anchor="start">insufficient for practical use</text>
+<text x="1550" y="1266" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#cbbb9f" text-anchor="start">No agent or execution tools</text>
+<text x="1550" y="1300" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#cbbb9f" text-anchor="start">Not in the delivery pipeline</text>
+<path d="M140 430 V557 H414 V1065 H546" fill="none" stroke="#6be0ae" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#gitops)" stroke-dasharray="8 6"/>
+<text x="440" y="549" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#6be0ae" text-anchor="start">Flux pulls Git over HTTPS</text>
+<path d="M1010 432 V557 H1280 V1006" fill="none" stroke="#8ab4ff" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#ci)"/>
+<text x="1095" y="548" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#8ab4ff" text-anchor="start">Runtime image pull</text>
+<path d="M366 991 H426 V919 H955 V1006" fill="none" stroke="#adbdce" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#manage)" stroke-dasharray="8 6"/>
+<path d="M670 1122 V1198" fill="none" stroke="#6be0ae" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#gitops)" stroke-dasharray="8 6"/>
+<path d="M798 1138 H1315 V1198" fill="none" stroke="#6be0ae" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#gitops)" stroke-dasharray="8 6"/>
+<path d="M670 1122 V1138 H798" stroke="#6be0ae" stroke-width="2.7" stroke-dasharray="8 6" fill="none"/>
+<text x="948" y="1165" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#6be0ae" text-anchor="middle">Reconcile application + tunnel manifests</text>
+<path d="M1448 484 V576 H1514 V1176 H1315 V1198" fill="none" stroke="#61dfd5" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#traffic)"/>
+<text x="1540" y="560" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#61dfd5" text-anchor="start">Outbound-established encrypted tunnel</text>
+<text x="1540" y="587" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#9dbfc7" text-anchor="start">Requests travel through this connection</text>
+<path d="M1514 610 V576 H1472 V486" fill="none" stroke="#61dfd5" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#traffic)" stroke-dasharray="8 6"/>
+<path d="M1174 1265 H1118" fill="none" stroke="#61dfd5" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#traffic)"/>
+<path d="M874 1265 H818" fill="none" stroke="#61dfd5" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#traffic)"/>
+<text x="1146" y="1245" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#61dfd5" text-anchor="middle">HTTP</text>
+<text x="846" y="1245" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#61dfd5" text-anchor="middle">HTTP</text>
+<path d="M225 1272 V1458 H1670 V1390" fill="none" stroke="#dfbd80" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#exp)" stroke-dasharray="8 6"/>
+<text x="825" y="1450" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#dfbd80" text-anchor="middle">Optional loopback-only SSH access · separate experiment on the same physical host</text>
+<text x="62" y="1501" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" fill="#b7cddd" text-anchor="start">NO INBOUND ROUTER PORT FORWARDING  ·  MANAGEMENT SERVICES REMAIN PRIVATE</text>
+<text x="1858" y="1501" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#a8bfd2" text-anchor="end">Single failure domain · learning lab · no HA or production-grade claim</text>
+</svg>
