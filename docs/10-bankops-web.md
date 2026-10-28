@@ -153,3 +153,7 @@ For image failures, compare Git's digest with pod events, verify anonymous regis
 - Add appropriate branch protections/review rules, image vulnerability scanning/provenance, and operational alerting/rollback drills before relying on this for production delivery.
 
 No public route to Kubernetes API, Proxmox, or Ollama is part of any public website rollout. Keep those management/model endpoints separately protected.
+
+## Cloudflare Tunnel follow-up — 2026-10-28
+
+A separate Flux-managed cloudflared connector is now deployed and Ready. The public apex/WWW Ingress rules and WWW canonical redirect are validated at the origin, with LAN access preserved. The WWW route resolves but incorrectly targets the origin using HTTPS on port 80 (502); the apex route/DNS is still absent. Public application and mobile validation remain pending. See [Cloudflare operations and exact account actions](11-cloudflare-tunnel.md). The application image/build pipeline is unchanged.

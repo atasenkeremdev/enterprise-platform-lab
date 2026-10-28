@@ -68,3 +68,7 @@ A separate unprivileged Debian 13 LXC, lab-ai-01 (CT 201), hosts CPU-only Ollama
 ## BankOps.dev application layer — 2026-10-28
 
 A single lightweight Next.js pod in the bankops namespace serves the private-LAN landing page through the existing Traefik ingress and ClusterIP Service. GitHub Actions builds/tests the amd64 standalone image, publishes an immutable GHCR digest, and commits the deployment reference. Two Flux controllers reconcile the public repository over verified HTTPS; the application reconciler is restricted to its namespace. No database or business backend is present. The deployment added only Kubernetes resources, with no Proxmox guest reconfiguration. See [BankOps operations](10-bankops-web.md).
+
+## Cloudflare connector layer — 2026-10-28
+
+One lightweight cloudflared pod in cloudflare-tunnel establishes outbound encrypted connections to Cloudflare and can reach only the approved cluster HTTP origin through Traefik. The local tunnel token is mounted from an out-of-Git Secret. Flux manages the pod, restricted network policy, scoped reconciliation, and public hostname rules, preserving private ingress. The Cloudflare apex route/DNS is still missing and WWW requires an HTTP-origin correction; no public website success is claimed yet. No router forwarding, Proxmox changes, or public management routes were added. See [Cloudflare status and recovery](11-cloudflare-tunnel.md).

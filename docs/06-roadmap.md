@@ -17,6 +17,7 @@ The roadmap separates verified outcomes from future work. The documentation mile
 | Local CPU inference | Completed | CT 201; pinned Ollama/model; SSH-only API; benchmarks and host/K3s health validated |
 | Model-driven execution agent | Not authorized | No SSH/Git/Terraform tools or agent installed |
 | GitOps delivery | Initial delivery completed | Minimal Flux and BankOps image/digest reconciliation verified; rollback drill remains planned |
+| Cloudflare public ingress | Connector validated; account routing pending | Secret out of Git; connector and origin routing healthy; Apex DNS missing; WWW origin protocol correction required |
 | BankOps.dev landing page | Completed on private LAN | Next.js container, GHCR publishing, browser checks, Service/Ingress, and Flux Ready |
 | Observability | Planned | Metrics, dashboards, actionable alerts, and log retention within capacity |
 | Security baseline | Planned | Trusted API TLS, scoped access, patching, secret management, exposure review |
@@ -60,3 +61,7 @@ The [local LLM milestone](09-local-llm.md) is validated with one small Qwen mode
 ## BankOps.dev next steps
 
 The [first website](10-bankops-web.md) is a private-LAN product introduction, not a compliance automation backend. Public DNS/HTTPS, the real demo/contact workflow, tenant identity, evidence storage/provenance, and production delivery safeguards remain separate work. Do not expose the lab management plane as part of a public launch.
+
+## Cloudflare account action pending
+
+The connector is healthy and GitOps-managed, but the apex still lacks DNS, while WWW resolves but returns 502 because its origin is configured as HTTPS on port 80. Correct the two route configurations before public launch. [Exact dashboard configuration](11-cloudflare-tunnel.md) and HTTPS/canonical redirect checks are documented. Do not report the public launch complete until those checks pass.
