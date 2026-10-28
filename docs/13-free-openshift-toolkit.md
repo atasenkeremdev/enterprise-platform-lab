@@ -38,3 +38,11 @@ For a future release, bump the version and use a new immutable ZIP filename rath
 ## Remaining product work
 
 An authorised live non-production OpenShift pilot, independent engineering review and customer usability feedback remain outstanding. The public page makes these limits explicit. There is no payment flow, subscription, telemetry collector, evidence upload or AI service in this release.
+
+## Verified public publication
+
+Source commit: c90f68aba607fc7fbc0a0bc7d49c28ef0023a67b. [CI run 40779158018](https://github.com/atasenkeremdev/enterprise-platform-lab/actions/runs/40779158018) succeeded, including constrained production container health, twenty website checks, downloaded archive verification and embedded offline tests. Automated image-reference commit: 5d63ea0d8d7e0f3d8db7fecd77001fb98b5ae260. Image: ghcr.io/atasenkeremdev/bankops-web@sha256:afe952726e4d9d3e9b0678b2b8a520b55b1ff5efe6a81b3a49ca3e6c3aa57491.
+
+The public product URL returned HTTP 200 with TLS verification result 0 using normal DNS. All twenty public desktop/mobile checks passed. Downloaded ZIP size was 205714 bytes and SHA-256 was 03fc38641d695c109dce5812a86bba62fdcebc4fcf23ae9f799033eee4f2c04d. ZIP contents/manifests matched, the PDF and checksum endpoints worked, and twelve offline tests passed from an extracted copy of the actual public download. WWW reached the HTTPS apex product path in one redirect with HTTP 200. No registration or evidence-upload form is present.
+
+Private management validation was unavailable from the current Mac network: its gateway was 192.168.1.1, while both VM 192.168.10.226 and Proxmox 192.168.10.10 SSH connections timed out. Kubernetes/Flux Ready conditions were therefore not independently queried for this release. Successful public access verifies the serving path and new artifacts, not full cluster health. No workaround exposed management services or changed routing, Proxmox or cluster configuration. Repeat private health checks when the authorised lab LAN is reachable.
