@@ -6,9 +6,9 @@
 
 Local website: **http://lab-k3s-01.lan**. The lab router currently resolves that name to 192.168.10.226. This is a private LAN application; no public DNS, port forwarding, tunnel-to-internet, or public ingress was configured. Kubernetes API, Proxmox, and Ollama exposure were not changed.
 
-BankOps.dev is positioned as Compliance Evidence Automation for Financial Infrastructure. This first version is a responsive product-introduction page, with hero, proposed capabilities, intended workflow, audience sections for Platform Engineering/Infrastructure/Security/Compliance, contact CTA, and GitHub footer. The evidence visual is labeled illustrative; capabilities are labeled planned. No customers, testimonials, certifications, completed integrations, or working evidence-automation features are claimed.
+BankOps.dev is positioned as Compliance Evidence Automation for Financial Infrastructure. This first version is a responsive product-introduction page, with hero, proposed capabilities, intended workflow, audience sections for Platform Engineering/Infrastructure/Security/Compliance, contact CTA, and a compact product footer. The evidence visual is labeled illustrative; capabilities are labeled planned. No customers, testimonials, certifications, completed integrations, or working evidence-automation features are claimed.
 
-The contact CTA opens a new issue in the existing GitHub repository. It does not submit a form or store data. Visitors are explicitly asked not to include confidential or regulated data. There is no business backend, database, account system, evidence collection, or live integration. /healthz is only an operational health handler.
+The contact CTA moves to an on-page demo availability notice. No verified business contact address has been supplied, so requests are marked opening soon; the site does not claim a working demo or submit a form/store data. All user-facing GitHub references and destinations have been removed. Visitors are explicitly asked not to include confidential or regulated data. There is no business backend, database, account system, evidence collection, or live integration. /healthz is only an operational health handler.
 
 ## Architecture
 
@@ -148,7 +148,7 @@ For image failures, compare Git's digest with pod events, verify anonymous regis
 
 - Verify BankOps.dev domain ownership and design the intended public DNS/ingress boundary; no domain ownership is assumed here.
 - Configure trusted HTTPS certificates and renewal, choose an appropriate TLS/ACME validation method, and review firewall/router exposure before opening anything publicly.
-- Decide the real private business contact/demo workflow, privacy notice, and terms; the current CTA is a public GitHub issue and must not collect sensitive evidence.
+- Decide the real private business contact/demo workflow, privacy notice, and terms; the current CTA leads to an availability notice until a verified contact channel is provided. Do not collect sensitive evidence through a public contact flow.
 - Design backend, tenant identity, authorization, data residency/retention, evidence provenance, and secret handling separately. None are implemented by this landing page.
 - Add appropriate branch protections/review rules, image vulnerability scanning/provenance, and operational alerting/rollback drills before relying on this for production delivery.
 
@@ -157,3 +157,11 @@ No public route to Kubernetes API, Proxmox, or Ollama is part of any public webs
 ## Cloudflare Tunnel follow-up — 2026-10-28
 
 A separate Flux-managed cloudflared connector is now deployed and Ready. The public apex/WWW Ingress rules and WWW canonical redirect are validated at the origin, with LAN access preserved. Public HTTPS now returns the expected application, with seven referenced assets verified and desktop/mobile checks passing. Normal-DNS WWW redirects preserve paths/query strings. Both remote origins correctly use HTTP port 80. Apex HTTP-to-HTTPS enforcement and Mac resolver cleanup remain documented follow-ups. See [Cloudflare launch validation and operations](11-cloudflare-tunnel.md). The application image/build pipeline is unchanged.
+
+## Modest visual refresh — 2026-10-28
+
+The existing section structure is preserved. The hero now uses “Infrastructure changes. Clearer evidence.” with a concise financial-infrastructure value proposition and a prominent Request a demo anchor. A navy/blue/teal palette, subtle gradient surfaces, clearer card boundaries, restrained hover elevation, and refined navigation/footer improve hierarchy without a new UI library, font download, or dependency. The evidence workflow remains explicitly conceptual with no live collection. All visitor-facing GitHub text, icons, and links are removed; the repository-based build and GitOps architecture remains unchanged.
+
+Local validation: TypeScript and optimized production build passed. Four Playwright checks passed across desktop/mobile, including a 320-pixel layout, keyboard skip link, reduced motion, contact anchor, expected content, no GitHub destination/text, health response, and no page JavaScript errors or failed static asset responses. Desktop/mobile screenshots were reviewed. The entry animation is disabled with prefers-reduced-motion; visible keyboard focus styles and semantic sections remain.
+
+Deployment uses the existing Actions → GHCR → immutable image digest commit → Flux pipeline. Final pipeline and public validation results are recorded after rollout below. No Proxmox or cluster configuration change is required.

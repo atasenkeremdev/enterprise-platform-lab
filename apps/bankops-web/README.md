@@ -1,6 +1,6 @@
 # bankops-web
 
-BankOps.dev's first product-introduction website: Next.js 16.4.3, React 19.3.1, TypeScript 7.0.2, and Node.js 24. It contains no business backend, database, sign-up, evidence collector, or live integrations. The evidence visual is explicitly illustrative. The demo/contact CTA opens a GitHub issue; visitors are asked not to include confidential or regulated data.
+BankOps.dev's first product-introduction website: Next.js 16.4.3, React 19.3.1, TypeScript 7.0.2, and Node.js 24. It contains no business backend, database, sign-up, evidence collector, or live integrations. The evidence visual is explicitly illustrative. The demo CTA links to an honest on-page availability notice until a verified business contact address is supplied. No visitor-facing GitHub references or links remain; visitors are asked not to include confidential or regulated data.
 
 ```sh
 npm ci --ignore-scripts
