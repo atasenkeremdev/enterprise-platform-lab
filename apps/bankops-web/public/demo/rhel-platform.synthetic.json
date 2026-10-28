@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "0.1",
+  "id": "SYNTHETIC-RHEL-001",
+  "revision": 1,
+  "synthetic": true,
+  "classification": "synthetic",
+  "status": "draft",
+  "createdAt": "2026-10-28T09:00:00Z",
+  "change": {
+    "title": "RHEL operating system patching — not an executed change",
+    "type": "normal",
+    "system": "example-rhel-service-vm",
+    "environment": "lab",
+    "purpose": "Assess a planned RHEL VM operating system patch owned by the Infra team.",
+    "scope": "OS package and kernel change assessment, host configuration, reboot planning and service validation; application code and image changes are excluded.",
+    "plannedStart": "2026-10-29T10:00:00Z",
+    "plannedEnd": "2026-10-29T10:30:00Z",
+    "expectedOutcome": "The platform and dependent workloads remain healthy after an independently reviewed, supported change.",
+    "riskAssessment": "Synthetic risk: a reboot, kernel change or package dependency could interrupt hosted services.",
+    "securityImpact": "Not assessed. Record applicable security findings, package provenance and impact to host controls.",
+    "fallbackPlan": "Proposed: establish a tested backup and supported recovery procedure for the affected host and services; package downgrade or snapshot recovery is not assumed safe. No recovery has been tested.",
+    "fallbackOwner": "synthetic-infra-owner"
+  },
+  "people": {
+    "owner": "synthetic-infra-owner",
+    "requester": "synthetic-infra-engineer",
+    "implementer": "synthetic-infra-engineer"
+  },
+  "evidence": [
+    {
+      "id": "synthetic-rhel-source-001",
+      "kind": "change_record",
+      "sourceUri": "urn:bankops:synthetic:rhel:change-record:001",
+      "sourceAt": "2026-10-28T08:55:00Z",
+      "collectedAt": "2026-10-28T09:00:00Z",
+      "assertionType": "synthetic",
+      "summary": "Illustrative platform change description only; no live inventory, compatibility test, independent approval or execution evidence exists."
+    }
+  ]
+}

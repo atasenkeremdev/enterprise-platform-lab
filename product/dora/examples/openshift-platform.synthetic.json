@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "0.1",
+  "id": "SYNTHETIC-OCP-001",
+  "revision": 1,
+  "synthetic": true,
+  "classification": "synthetic",
+  "status": "draft",
+  "createdAt": "2026-10-28T09:00:00Z",
+  "change": {
+    "title": "OpenShift platform upgrade — not an executed change",
+    "type": "normal",
+    "system": "example-onprem-ocp",
+    "environment": "lab",
+    "purpose": "Assess a planned on-premises OpenShift platform upgrade owned by the Infra team.",
+    "scope": "Cluster version, Cluster Operators, machine config pools, nodes and underlying infrastructure readiness; application image changes are excluded.",
+    "plannedStart": "2026-10-29T10:00:00Z",
+    "plannedEnd": "2026-10-29T10:30:00Z",
+    "expectedOutcome": "The platform and dependent workloads remain healthy after an independently reviewed, supported change.",
+    "riskAssessment": "Synthetic risk: degraded Operators, blocked node drains, storage dependencies and workload compatibility may disrupt the cluster.",
+    "securityImpact": "Not assessed. Review cluster-level access, security configuration and Operator impact.",
+    "fallbackPlan": "Proposed: record a version-specific, support-led recovery plan and backup/restore evidence. An OpenShift cluster version rollback is not supported; do not treat a Git revert as a cluster downgrade. No recovery has been tested.",
+    "fallbackOwner": "synthetic-infra-owner"
+  },
+  "people": {
+    "owner": "synthetic-infra-owner",
+    "requester": "synthetic-infra-engineer",
+    "implementer": "synthetic-infra-engineer"
+  },
+  "evidence": [
+    {
+      "id": "synthetic-ocp-source-001",
+      "kind": "change_record",
+      "sourceUri": "urn:bankops:synthetic:ocp:change-record:001",
+      "sourceAt": "2026-10-28T08:55:00Z",
+      "collectedAt": "2026-10-28T09:00:00Z",
+      "assertionType": "synthetic",
+      "summary": "Illustrative platform change description only; no live inventory, compatibility test, independent approval or execution evidence exists."
+    }
+  ]
+}

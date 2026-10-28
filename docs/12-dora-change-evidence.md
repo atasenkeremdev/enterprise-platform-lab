@@ -81,3 +81,20 @@ The /demo route demonstrates the draft package with overview, ownership, risk/fa
 The canonical fixture remains product/dora/examples/change-evidence.synthetic.json. A byte-equivalent JSON copy is shipped in apps/bankops-web/public/demo for the app-only Docker build context. Browser tests compare the served JSON with the canonical object; update both together. Future operational code must never replace this public fixture with real evidence.
 
 The synthetic walkthrough is deployed at https://bankops.dev/demo. Production build, CI container checks and eight public desktop/mobile browser checks passed. [Publication evidence](10-bankops-web.md#verified-demo-publication) records the exact image and source revisions.
+
+## Responsibility-aware scenarios
+
+The synthetic walkthrough now separates the accountable technical team from supporting evidence contributors and independent change approval. These are illustrative organisational assignments, not universal DORA-prescribed job titles or enforced access policies.
+
+| Scenario | Accountable team in the example | Supporting evidence | Explicit boundary |
+| --- | --- | --- | --- |
+| Application image update | Development | Infra supplies platform constraints; Security advises on impact | No cluster/node/OS change |
+| Azure AKS platform/node pool upgrade | Infra | Development supplies workload compatibility/regression results | Microsoft-operated control plane internals are not customer-administered |
+| On-prem OpenShift platform upgrade | Infra, coordinating compute/network/storage owners | Development supplies application validation | Platform-managed node lifecycle; application images remain Development-owned |
+| RHEL VM OS patch | Infra | Development or designated service owner supplies service regression checks | Standalone host lifecycle, not an OpenShift node-patching recipe |
+
+Each scenario changes the package, accountable identities, scope, fallback discussion, evidence checks, source reference and JSON download. Each expanded evidence check names its contributor. Scenario selection resets the gaps filter and expanded details to avoid carrying state across packages. All records remain synthetic drafts without approval or implementation history; UI scenario/team metadata is not silently added to the version 0.1 JSON contract. No new fields or claims of schema-enforced team authorisation are introduced.
+
+Supporting platform facts were checked against [Microsoft AKS support/responsibility policy](https://learn.microsoft.com/en-us/azure/aks/support-policies) and [Red Hat OpenShift updating documentation](https://docs.redhat.com/en/documentation/openshift_container_platform/4.21/html/updating_clusters/performing-a-cluster-update). AKS customers coordinate/configure their side of platform operation while Microsoft operates the managed control plane. OpenShift cluster version rollback is unsupported: a Git revert is not a platform downgrade. Version-specific recovery, provider support and tested restore feasibility must be assessed separately. No AKS, OpenShift or RHEL environment was connected, provisioned or changed.
+
+Canonical records live under product/dora/examples; matching static download copies live under apps/bankops-web/public/demo. All four records validate against the existing Draft 2020-12 contract with format checks enabled. Fourteen desktop/mobile browser checks cover role boundaries, scenario-specific gaps, downloads, reset behaviour, original demo safety and the landing page. Desktop/mobile screenshots and a 320-pixel OpenShift view were checked.

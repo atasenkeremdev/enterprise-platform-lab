@@ -63,3 +63,51 @@ test("demo filters and disclosure support keyboard navigation at 320 pixels", as
   await expect(page.getByText("A written fallback proposal is not proof that recovery has been tested.", { exact: true })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
 });
+
+for (const scenario of [
+  { id: "aks", title: "AKS platform and node pool upgrade", file: "aks-platform.synthetic.json", evidence: "Platform baseline & upgrade plan", boundary: "Microsoft operates the managed control plane", fallback: "do not assume a Kubernetes version downgrade" },
+  { id: "openshift", title: "OpenShift platform upgrade", file: "openshift-platform.synthetic.json", evidence: "Cluster & infrastructure readiness", boundary: "OpenShift nodes follow platform-managed OS lifecycle", fallback: "An OpenShift cluster version rollback is not supported" },
+  { id: "rhel", title: "RHEL operating system patching", file: "rhel-platform.synthetic.json", evidence: "OS baseline & patch assessment", boundary: "Infra owns the VM's operating system", fallback: "package downgrade or snapshot recovery is not assumed safe" },
+]) {
+  test(`${scenario.id} scenario keeps infrastructure ownership, scope and downloaded evidence consistent`, async ({ page }) => {
+    const errors: string[] = [];
+    const writes: string[] = [];
+    page.on("pageerror", e => errors.push(e.message));
+    page.on("request", r => { if (!["GET", "HEAD"].includes(r.method())) writes.push(r.url()); });
+    await page.goto("/demo");
+    await expect(page.getByText("Accountable team: Development", { exact: true })).toHaveCount(2);
+    await page.getByRole("button", { name: "Gaps only", exact: true }).click();
+    await page.getByLabel("Choose a synthetic scenario").selectOption(scenario.id);
+    await expect(page.getByRole("heading", { name: scenario.title, exact: true })).toBeVisible();
+    await expect(page.getByText("Accountable team: Infra", { exact: true })).toHaveCount(2);
+    await expect(page.getByText(scenario.boundary, { exact: false })).toBeVisible();
+    await expect(page.getByRole("button", { name: "All checks", exact: true })).toHaveAttribute("aria-pressed", "true");
+    await expect(page.locator(".demo-checks > li")).toHaveCount(6);
+    await page.locator("summary").filter({ hasText: scenario.evidence }).click();
+    await expect(page.locator(".demo-checks details[open] .check-responsibility").filter({ hasText: "Infra" })).toBeVisible();
+    await page.locator("summary").filter({ hasText: "Risk and fallback plan" }).click();
+    await expect(page.getByText(scenario.fallback, { exact: false })).toBeVisible();
+    await page.getByRole("button", { name: "Gaps only", exact: true }).click();
+    await expect(page.locator(".demo-checks > li")).toHaveCount(5);
+    const link = page.getByRole("link", { name: "Download synthetic JSON", exact: false });
+    await expect(link).toHaveAttribute("href", `/demo/${scenario.file}`);
+    const response = await page.request.get(`/demo/${scenario.file}`);
+    expect(response.ok()).toBeTruthy();
+    const record = await response.json();
+    expect(record).toEqual(JSON.parse(readFileSync(resolve(process.cwd(), `../../product/dora/examples/${scenario.file}`), "utf8")));
+    expect(record.people.owner).toBe("synthetic-infra-owner");
+    expect(record.synthetic).toBe(true);
+    expect(record.status).toBe("draft");
+    expect(record.review).toBeUndefined();
+    expect(record.implementation).toBeUndefined();
+    await page.getByLabel("Choose a synthetic scenario").selectOption("application");
+    await expect(page.getByRole("heading", { name: "Application image update", exact: true })).toBeVisible();
+    await expect(link).toHaveAttribute("href", "/demo/change-evidence.synthetic.json");
+    await expect(page.getByText("synthetic-infra-owner", { exact: true })).toHaveCount(0);
+    await expect(page.locator(".demo-checks details[open]")).toHaveCount(0);
+    await expect(page.locator('input,textarea,form,a[href*="github.com"]')).toHaveCount(0);
+    expect(errors).toEqual([]);
+    expect(writes).toEqual([]);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
+  });
+}

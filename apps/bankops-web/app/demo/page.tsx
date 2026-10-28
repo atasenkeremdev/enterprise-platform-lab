@@ -19,9 +19,9 @@ export default function DemoPage() {
         <div className="demo-intro">
           <p className="eyebrow">Product walkthrough / change evidence</p>
           <h1>One change.<br /><em>The evidence around it.</em></h1>
-          <p>See how an infrastructure change could become a reviewable evidence package — with its sources, owners, and gaps in one place.</p>
+          <p>See how an infrastructure change could become a reviewable evidence package — with its sources, owners, and gaps in one place. Explore Development-owned application changes and Infra-owned AKS, on-prem OpenShift, and RHEL scenarios.</p>
         </div>
-        <aside className="demo-disclosure" aria-label="Prototype limitations"><strong>Synthetic data · Read-only prototype</strong><p>This fictional package is not an executed change. No live systems are connected, no approval can be recorded, and no form submissions or evidence uploads are accepted. This screen does not assess DORA compliance.</p></aside>
+        <aside className="demo-disclosure" aria-label="Prototype limitations"><strong>Synthetic data · Read-only prototype</strong><p>These fictional packages are not executed changes. No live systems are connected, no approval can be recorded, and no form submissions or evidence uploads are accepted. This screen does not assess DORA compliance.</p></aside>
         <DemoWorkspace />
         <section className="demo-regulatory" aria-labelledby="demo-scope-title">
           <h2 id="demo-scope-title">A narrow workflow, not a compliance verdict.</h2>

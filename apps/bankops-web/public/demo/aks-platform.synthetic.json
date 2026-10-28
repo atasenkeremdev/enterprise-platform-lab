@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "0.1",
+  "id": "SYNTHETIC-AKS-001",
+  "revision": 1,
+  "synthetic": true,
+  "classification": "synthetic",
+  "status": "draft",
+  "createdAt": "2026-10-28T09:00:00Z",
+  "change": {
+    "title": "AKS platform and node pool upgrade — not an executed change",
+    "type": "normal",
+    "system": "example-aks-platform",
+    "environment": "lab",
+    "purpose": "Assess a planned AKS platform and node pool upgrade owned by the Infra team.",
+    "scope": "Customer-controlled upgrade scheduling, node pools, access/network policy and platform diagnostics; application image changes are excluded.",
+    "plannedStart": "2026-10-29T10:00:00Z",
+    "plannedEnd": "2026-10-29T10:30:00Z",
+    "expectedOutcome": "The platform and dependent workloads remain healthy after an independently reviewed, supported change.",
+    "riskAssessment": "Synthetic risk: node disruption, workload compatibility and insufficient spare capacity could affect availability.",
+    "securityImpact": "Not assessed. Compare customer-managed access and network controls before and after the proposed change.",
+    "fallbackPlan": "Proposed: document a supported recovery and escalation path before approval; do not assume a Kubernetes version downgrade is available. No recovery has been tested.",
+    "fallbackOwner": "synthetic-infra-owner"
+  },
+  "people": {
+    "owner": "synthetic-infra-owner",
+    "requester": "synthetic-infra-engineer",
+    "implementer": "synthetic-infra-engineer"
+  },
+  "evidence": [
+    {
+      "id": "synthetic-aks-source-001",
+      "kind": "change_record",
+      "sourceUri": "urn:bankops:synthetic:aks:change-record:001",
+      "sourceAt": "2026-10-28T08:55:00Z",
+      "collectedAt": "2026-10-28T09:00:00Z",
+      "assertionType": "synthetic",
+      "summary": "Illustrative platform change description only; no live inventory, compatibility test, independent approval or execution evidence exists."
+    }
+  ]
+}

@@ -19,12 +19,12 @@
     "riskAssessment": "Synthetic assessment: availability could be affected by an image startup failure.",
     "securityImpact": "Not assessed. A security review is required before approval.",
     "fallbackPlan": "Proposed: revert the desired image digest in Git and verify reconciliation; not exercised.",
-    "fallbackOwner": "synthetic-platform-owner"
+    "fallbackOwner": "synthetic-development-owner"
   },
   "people": {
-    "owner": "synthetic-platform-owner",
-    "requester": "synthetic-engineer",
-    "implementer": "synthetic-engineer"
+    "owner": "synthetic-development-owner",
+    "requester": "synthetic-developer",
+    "implementer": "synthetic-developer"
   },
   "evidence": [
     {

@@ -191,3 +191,9 @@ Local TypeScript and optimized production build passed. Eight desktop/mobile bro
 - https://www.bankops.dev/demo?source=validation completed at https://bankops.dev/demo?source=validation in one redirect with 200. /healthz returned status ok.
 - The new BankOps pod was 1/1 Ready with zero restarts; Flux source and all three Kustomizations reconciled the digest commit and were Ready. Existing workloads remained healthy. Guest available RAM was 1638 MiB after rollout; no RAM or cluster configuration increase was required.
 - The earlier Mac DNS failure was not reproduced during these checks. This does not change the separately documented apex HTTP-to-HTTPS follow-up.
+
+## Development / Infra scenario expansion
+
+/demo now offers four synthetic scenarios: Development-owned application image changes and Infra-owned AKS platform/node pool, on-prem OpenShift platform and RHEL OS changes. The ownership panel separates primary responsibility, supporting teams, excluded scope and independent review. Each evidence disclosure names its contributor. The selected package controls its own download and source provenance; no live integration, real approval, writes or new backend is added. See [scenario model and source references](12-dora-change-evidence.md#responsibility-aware-scenarios).
+
+Production build and TypeScript passed. Fourteen local desktop/mobile browser checks passed; all four public fixture copies match the canonical records and validate against the existing schema. Screenshots were reviewed and 320-pixel layout checked. The existing Actions → GHCR → Flux path publishes the update without cluster or Proxmox configuration changes. Final public rollout verification is recorded below after deployment.
